@@ -9,6 +9,11 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+  #redis
+  redis:
+    host: 118.31.34.65
+    database: 0
+    port: 6379
 
 #配置日志
 mybatis-plus:
@@ -22,3 +27,4 @@ mybatis-plus:
   type-aliases-package: com.djz.entity
 server:
   port: 1314
+
