@@ -15,6 +15,9 @@ spring:
     database: 0
     port: 6379
 
+  application:
+    name: harbintrip-system
+
 #配置日志
 mybatis-plus:
   configuration:
@@ -27,4 +30,14 @@ mybatis-plus:
   type-aliases-package: com.djz.entity
 server:
   port: 1314
+  #zookeeper
+#dubbo:
+#  application:
+#    name: provider
+#  protocol:
+#    name: dubbo
+#    port: 20880
+#  registry:
+#    address: zookeeper://118.31.34.65:2181
+
 
