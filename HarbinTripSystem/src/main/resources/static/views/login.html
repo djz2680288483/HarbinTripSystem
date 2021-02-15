@@ -1,4 +1,4 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>登录页面</title>
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
 
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
@@ -21,7 +21,7 @@
 <div class="limiter">
     <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-            <form class="login100-form validate-form" action="demo/index" method="get" id="loginForm">
+            <form class="login100-form validate-form">
                 <span class="login100-form-title p-b-49">登录</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
@@ -43,7 +43,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" id="submit" type="submit">登 录</button>
+                        <button class="login100-form-btn">登 录</button>
                     </div>
                 </div>
 
@@ -73,21 +73,13 @@
     </div>
 </div>
 
-<script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="/webjars/jquery/3.5.0/jquery.js"></script>
 <script src="js/main.js"></script>
-<script>
-    $("#submit").click(function () {
-        $("#loginForm").submit();
-    });
-</script>
 
 
-<script type="text/javascript"> (function () {
-    var s = "_" + Math.random().toString(36).slice(2);
-    document.write('<div style="" id="' + s + '"></div>');
-    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});
-})(); </script>
-<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
+
+
+<script type="text/javascript"> (function() { var s = "_" + Math.random().toString(36).slice(2); document.write('<div style="" id="' + s + '"></div>'); (window.slotbydup = window.slotbydup || []).push({ id: "u4923786", container:  s }); })(); </script><script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer" ></script>
 </body>
 
 </html>

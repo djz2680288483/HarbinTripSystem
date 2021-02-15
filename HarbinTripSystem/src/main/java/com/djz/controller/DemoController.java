@@ -27,9 +27,9 @@ public class DemoController {
     }
 
     @ApiOperation("可支持测试")
-    @GetMapping({"/", "/index"})
+    @GetMapping("/index")
     public String getIndex() {
-        return "/views/welcome";
+        return "welcome";
     }
 
 }
