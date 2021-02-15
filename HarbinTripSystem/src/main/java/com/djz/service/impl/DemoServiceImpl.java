@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2021/2/5 -16:22
  */
 @Service
-public class DemoService implements IDemoService {
+public class DemoServiceImpl implements IDemoService {
     @Autowired
     private DemoMapper mapper;
 

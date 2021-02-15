@@ -4,7 +4,7 @@ spring:
     encoding: UTF-8
     check-template: true
   datasource:
-    url: jdbc:mysql://localhost:3306/djz?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://localhost:3306/trip?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -30,6 +30,14 @@ mybatis-plus:
   type-aliases-package: com.djz.entity
 server:
   port: 1314
+
+
+
+#百度地图ak
+baiduMap:
+  ak: h9WIy78OinyTybZbHNwnKbkbobecWh7R
+  default:
+    city: 哈尔滨
   #zookeeper
 #dubbo:
 #  application:
