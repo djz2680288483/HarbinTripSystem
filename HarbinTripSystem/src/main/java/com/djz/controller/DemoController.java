@@ -26,10 +26,5 @@ public class DemoController {
         return objectsJSON;
     }
 
-    @ApiOperation("可支持测试")
-    @GetMapping("/index")
-    public String getIndex() {
-        return "welcome";
-    }
 
 }

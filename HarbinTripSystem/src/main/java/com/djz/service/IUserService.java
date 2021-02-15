@@ -11,7 +11,7 @@ import com.djz.entity.User;
  * @author sr
  * @since 2019-01-18
  */
-public interface UserService {
+public interface IUserService {
     /**
      * 用户登录
      * @param user
@@ -21,8 +21,8 @@ public interface UserService {
 
     /**
      * 获取用户信息判断是否为合法用户
-     * @param id
+     * @param username
      * @return
      */
-    public User getUser(String id);
+    public User getUser(String username);
 }
