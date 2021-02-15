@@ -1,6 +1,9 @@
 <!DOCTYPE html >
 <html xmlns:th="http://www.thymeleaf.org">
 <title>地图展示</title>
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css"/>
+<script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -76,7 +79,7 @@
     //map.setHeading(64.5);
     //设置地图的倾斜角度
     //map.setTilt(73);
-    marker.addEventListener("click", function(){
+    marker.addEventListener("click", function () {
         alert("您点击了标注");
     });
 
@@ -88,18 +91,20 @@
 
     map.setTrafficOff(); // 移除交通流量图层
 
-    map.addEventListener('click', function(e) {
+    map.addEventListener('click', function (e) {
         alert('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
         var mercator = map.lnglatToMercator(e.latlng.lng, e.latlng.lat);
         alert('点的墨卡托坐标：' + mercator[0] + ', ' + mercator[1]);
     });
 
     map.addEventListener('click', handleClick);
-    function handleClick (e) {
+
+    function handleClick(e) {
         alert('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
         var mercator = map.lnglatToMercator(e.latlng.lng, e.latlng.lat);
         alert('点的墨卡托坐标：' + mercator[0] + ', ' + mercator[1]);
     }
+
     map.removeEventListener('click', handleClick);
 </script>
 </body>
