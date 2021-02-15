@@ -61,6 +61,9 @@
     // 创建标注
     var marker = new BMapGL.Marker(point);
     map.addOverlay(marker);
+
+    map.setCurrentCity("哈尔滨");
+
     var myIcon = new BMapGL.Icon("markers.png", new BMapGL.Size(23, 25), {
         // 指定定位位置。
         // 当标注显示在地图上时，其所指向的地理位置距离图标左上
