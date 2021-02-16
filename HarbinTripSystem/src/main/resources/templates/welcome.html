@@ -29,14 +29,25 @@
     <script type="text/javascript"
             src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5">
     </script>
+    <style>
+        #search {
+            height: 120px;
+        }
+    </style>
 </head>
 
 <body>
 <div id="search">
-    <form action="/demo/index" method="get">
+    <form action="#" method="get">
         <input type="text" name="placeName"/>
-        <input type="submit" value="查询"></input>
+        <input type="submit" value="查询"/>
+    </form></br>
+    <form id="guide" action="#" method="post">
+        出发地: <input type="text" name="startPlace"/>&nbsp;&nbsp;
+        目的地: <input type="text" name="endPlace"/>
+        <input type="button"  id="startGuide" name="startGuide" value="开始导航"/>
     </form>
+
 </div>
 <div id="container"></div>
 <script type="text/javascript">
