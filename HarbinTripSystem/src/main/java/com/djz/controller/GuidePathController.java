@@ -26,13 +26,35 @@ public class GuidePathController {
 
     @PostMapping("/list")
     @ApiOperation(value = "查询导航记录")
-    public String pageGuidePath(Long userId, ModelMap modelMap) {
+    public String listGuidePath(Long userId, ModelMap modelMap) {
 
         List<GuidePath> list=guidePathService.getListByUserId(userId);
 
         modelMap.addAttribute("list",list);
         return "list";
     }
+
+    @PostMapping("/add")
+    @ApiOperation(value = "新增导航记录")
+    public String addGuidePath(GuidePath guidePath, ModelMap modelMap) {
+
+       Boolean result=guidePathService.addGuidePath(guidePath);
+
+        modelMap.addAttribute("result",result);
+        return "add";
+    }
+
+
+    @PostMapping("/remove")
+    @ApiOperation(value = "删除导航记录")
+    public String removeGuidePath(Long guideId, ModelMap modelMap) {
+
+        Boolean result=guidePathService.removeGuidePath(guideId);
+
+        modelMap.addAttribute("result",result);
+        return "remove";
+    }
+
 
 
 }
