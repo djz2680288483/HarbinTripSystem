@@ -51,7 +51,7 @@ public class UserController {
             modelAndView.addObject("msg", "密码错误");
             return "login";
         }
-        return "welcome";
+        return "demo5";
     }
 
 }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+
+        #container {
+            height: 100%
+        }
+    </style>
+    <style>
+        #search {
+            height: 120px;
+            background-color: #00dbde;
+        }
+
+        #startGuide {
+            color: #a64bf4;
+        }
+
+        #findPlace {
+            color: #ea4335;
+        }
+
+    </style>
+    <script type="text/javascript"
+            src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
+    <title>地图展示</title>
+</head>
+
+<body>
+<div id="search">
+    </br>
+    <div id="r-result">
+        <form id="guide" action="#" method="post">
+            出发地: <input type="text" name="startPlace" style="width:200px;"/>&nbsp;&nbsp;
+            目的地: <input type="text" id="suggestId" name="endPlace" style="width:200px;"/>
+            <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
+        </form>
+    </div>
+</div>
+<div id="container"></div>
+<div id="searchResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
+</body>
+
+</html>
+<script type="text/javascript">
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMapGL.Map("container");
+    // 初始化地图,设置城市和地图级别。
+    map.centerAndZoom("哈尔滨市", 15);
+
+
+    //开启鼠标滚轮缩放
+    map.enableScrollWheelZoom(true);
+    // 添加比例尺控件
+    var scaleCtrl = new BMapGL.ScaleControl();
+    map.addControl(scaleCtrl);
+    // 添加缩放控件
+    var zoomCtrl = new BMapGL.ZoomControl();
+    map.addControl(zoomCtrl);
+    // 添加城市列表控件
+    var cityCtrl = new BMapGL.CityListControl();
+    map.addControl(cityCtrl);
+
+    //建立一个自动完成的对象
+    var ac = new BMapGL.Autocomplete({
+        "input": "suggestId",
+        "location": map
+    });
+    //鼠标放在下拉列表上的事件
+    ac.addEventListener("onhighlight", function (e) {
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    //鼠标点击下拉列表后的事件
+    ac.addEventListener("onconfirm", function (e) {
+        var _value = e.item.value;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setPlace();
+    });
+
+    function setPlace() {
+        //清除地图上所有覆盖物
+        map.clearOverlays();
+
+        function myFun() {
+            //获取第一个智能搜索的结果
+            var pp = local.getResults().getPoi(0).point;
+            map.centerAndZoom(pp, 18);
+            //添加标注
+            map.addOverlay(new BMapGL.Marker(pp));
+        }
+
+        //智能搜索
+        var local = new BMapGL.LocalSearch(map, {
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+</script>

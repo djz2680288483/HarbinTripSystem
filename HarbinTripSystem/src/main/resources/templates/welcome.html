@@ -10,7 +10,7 @@
     <title>Hello, World</title>
     <style type="text/css">
         html {
-            height: 100%
+            height: 100%;
         }
 
         /*html{height:100%}*/
@@ -32,20 +32,31 @@
     <style>
         #search {
             height: 120px;
+            background-color: #00dbde;
         }
+
+        #startGuide {
+            color: #a64bf4;
+        }
+
+        #findPlace {
+            color: #ea4335;
+        }
+
     </style>
 </head>
 
 <body>
 <div id="search">
-    <form action="#" method="get">
-        <input type="text" name="placeName"/>
-        <input type="submit" value="查询"/>
-    </form></br>
+    <div id="r-result">
+        城市名: <input id="cityName" type="text" style="width:100px; margin-right:10px;"/>
+        <input type="button" value="查询" onclick="theLocation()"/>
+    </div>
+    </br>
     <form id="guide" action="#" method="post">
         出发地: <input type="text" name="startPlace"/>&nbsp;&nbsp;
         目的地: <input type="text" name="endPlace"/>
-        <input type="button"  id="startGuide" name="startGuide" value="开始导航"/>
+        <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
     </form>
 
 </div>
@@ -54,10 +65,15 @@
     // 创建地图实例
     var map = new BMapGL.Map("container");
     // 创建点坐标  哈尔滨坐标
-    var point = new BMapGL.Point(126.63, 45.75);
+    //var point = new BMapGL.Point(126.63, 45.75);
+
+    //获取当前位置经纬度
+
+
 
     // 初始化地图，设置中心点坐标和地图级别 最大19
-    map.centerAndZoom(point, 15);
+    map.centerAndZoom("哈尔滨市", 15);
+
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true);
     // 添加比例尺控件
@@ -72,9 +88,8 @@
     // 创建标注
     var marker = new BMapGL.Marker(point);
     map.addOverlay(marker);
-
-    map.setCurrentCity("哈尔滨");
-
+    // marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    // map.enableContinuousZoom(true);
     var myIcon = new BMapGL.Icon("markers.png", new BMapGL.Size(23, 25), {
         // 指定定位位置。
         // 当标注显示在地图上时，其所指向的地理位置距离图标左上
@@ -89,6 +104,8 @@
     // 创建标注对象并添加到地图
     var marker = new BMapGL.Marker(point, {icon: myIcon});
     map.addOverlay(marker);
+
+
     // 设置地图旋转角度
     //map.setHeading(64.5);
     //设置地图的倾斜角度
@@ -96,14 +113,15 @@
     marker.addEventListener("click", function () {
         alert("您点击了标注");
     });
+    //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 
-    var map = new BMapGL.Map("all-map");   // 创建地图实例
-    var point = new BMapGL.Point(116.404, 39.915);   // 创建点坐标
-    map.centerAndZoom(point, 15);                    // 初始化地图，设置中心点坐标和地图级别
+   // var map = new BMapGL.Map("all-map");   // 创建地图实例
+  //  var point = new BMapGL.Point(116.404, 39.915);   // 创建点坐标
+  //  map.centerAndZoom(point, 15);                    // 初始化地图，设置中心点坐标和地图级别
     map.enableScrollWheelZoom(true);                 // 开启鼠标滚轮缩放
     map.setTrafficOn();                              // 添加交通流量图层
 
-    map.setTrafficOff(); // 移除交通流量图层
+    //map.setTrafficOff(false); // 移除交通流量图层
 
     map.addEventListener('click', function (e) {
         alert('点击的经纬度：' + e.latlng.lng + ', ' + e.latlng.lat);
@@ -120,6 +138,17 @@
     }
 
     map.removeEventListener('click', handleClick);
+
+    function theLocation() {
+        var city = document.getElementById("cityName").value;
+        if (city != "") {
+            // 创建Map实例
+            var map = new BMapGL.Map("container");
+            // 用城市名设置地图中心点
+            map.centerAndZoom(city, 15);
+
+        }
+    }
 </script>
 </body>
 </html>
