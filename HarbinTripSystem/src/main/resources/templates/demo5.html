@@ -20,7 +20,7 @@
     </style>
     <style>
         #search {
-            height: 120px;
+            height: 100px;
             background-color: #00dbde;
         }
 
@@ -39,17 +39,25 @@
 </head>
 
 <body>
+<!--搜索框-->
 <div id="search">
     </br>
     <div id="r-result">
         <form id="guide" action="#" method="post">
+            导航方式：<select class="driverType" id="driverType" style="width:100px;">
+            <option value="0">驾车</option>
+            <option value="1">公交</option>
+            <option value="2">徒步</option>
+        </select>
             出发地: <input type="text" name="startPlace" style="width:200px;"/>&nbsp;&nbsp;
             目的地: <input type="text" id="suggestId" name="endPlace" style="width:200px;"/>
             <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
         </form>
     </div>
 </div>
+<!--地图容器-->
 <div id="container"></div>
+<!--推荐列表-->
 <div id="searchResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
 </body>
 
@@ -129,4 +137,21 @@
         });
         local.search(myValue);
     }
+
+    //获取导航方式
+
+    //获取起始 和目的地经纬度
+
+    //路线推荐 1 驾车导航
+    // var p1 = new BMapGL.Point(116.301934, 39.977552);
+    // var p2 = new BMapGL.Point(116.508328, 39.919141);
+    //
+    // var driving = new BMapGL.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+    // driving.search(p1, p2);
+
+    //路线推荐 2 公交导航
+
+
+    //路线推荐 3 徒步导航
+
 </script>
