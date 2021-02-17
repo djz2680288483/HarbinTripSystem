@@ -19,6 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("导航数据实体")
+@TableName("guide_path")
 public class GuidePath implements Serializable {
     private static final long serialVersionUID = 1L;
 
