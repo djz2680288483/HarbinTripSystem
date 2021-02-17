@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
@@ -41,7 +41,8 @@
 <body>
 <!--搜索框-->
 <div id="search">
-    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:200px;" readonly/>&nbsp;&nbsp;
+<!--    <div> 当前登录用户:<div th:text="${user==null?'李四':user.getName()}"></div></div>-->
+   当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:200px;" readonly/>&nbsp;&nbsp;
     </br>
     <div id="r-result">
         <form id="guide" action="#" method="post">
@@ -55,11 +56,12 @@
             <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
         </form>
     </div>
+    <!--推荐列表-->
+    <div id="searchResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
 </div>
 <!--地图容器-->
 <div id="container"></div>
-<!--推荐列表-->
-<div id="searchResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
+
 </body>
 
 </html>
@@ -70,8 +72,10 @@
     }
 
     var map = new BMapGL.Map("container");
+     var point = new BMapGL.Point(126.732714,45.749247);
     // 初始化地图,设置城市和地图级别。
-    map.centerAndZoom("哈尔滨市", 15);
+  //  map.centerAndZoom("哈尔滨市", 15);
+    map.centerAndZoom(point, 15);
 
 
     //开启鼠标滚轮缩放
