@@ -28,7 +28,7 @@
             color: #a64bf4;
         }
 
-        #findPlace {
+        endPlace {
             color: #ea4335;
         }
 
@@ -41,6 +41,7 @@
 <body>
 <!--搜索框-->
 <div id="search">
+    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:200px;" readonly/>&nbsp;&nbsp;
     </br>
     <div id="r-result">
         <form id="guide" action="#" method="post">
@@ -49,8 +50,8 @@
             <option value="1">公交</option>
             <option value="2">徒步</option>
         </select>
-            出发地: <input type="text" name="startPlace" style="width:200px;"/>&nbsp;&nbsp;
-            目的地: <input type="text" id="suggestId" name="endPlace" style="width:200px;"/>
+            出发地: <input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
+            目的地: <input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
             <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
         </form>
     </div>
@@ -87,7 +88,7 @@
 
     //建立一个自动完成的对象
     var ac = new BMapGL.Autocomplete({
-        "input": "suggestId",
+        "input": "endPlace",
         "location": map
     });
     //鼠标放在下拉列表上的事件
@@ -139,7 +140,11 @@
     }
 
     //获取导航方式
-
+    var guide = document.getElementById("startGuide");
+    guide.click(function () {
+      var start=document.getElementById("s");
+    });
+    
     //获取起始 和目的地经纬度
 
     //路线推荐 1 驾车导航
