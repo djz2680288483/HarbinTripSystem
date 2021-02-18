@@ -52,7 +52,7 @@
         </select>
             出发地: <input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
             目的地: <input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
-            <input type="button" id="startGuide" name="startGuide" value="开始导航"/>
+            <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="开始导航"/>
         </form>
     </div>
 </div>
@@ -63,6 +63,9 @@
 <div id="searchStartResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
 </body>
 <script type="text/javascript">
+    var startPlacePoint;
+    var endPlacePoint;
+
     // 百度地图API功能
     function G(id) {
         return document.getElementById(id);
@@ -130,6 +133,7 @@
             map.centerAndZoom(pp, 18);
             //添加标注
             map.addOverlay(new BMapGL.Marker(pp));
+            endPlacePoint = pp;
         }
 
         //智能搜索
@@ -139,28 +143,8 @@
         local.search(myValue);
     }
 
-    //获取导航方式
-    var guide = document.getElementById("startGuide");
-    guide.click(function () {
-        var driveType=document.getElementById("driverType");
-    });
-
-    //获取起始 和目的地经纬度
-
-    //路线推荐 1 驾车导航
-    // var p1 = new BMapGL.Point(116.301934, 39.977552);
-    // var p2 = new BMapGL.Point(116.508328, 39.919141);
-    //
-    // var driving = new BMapGL.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
-    // driving.search(p1, p2);
-
-    //路线推荐 2 公交导航
-
-
-    //路线推荐 3 徒步导航
-
 </script>
-    <script>
+<script>
     //建立一个自动完成的对象
     var acStart = new BMapGL.Autocomplete({
         "input": "startPlace",
@@ -206,6 +190,7 @@
             map.centerAndZoom(pp, 18);
             //添加标注
             map.addOverlay(new BMapGL.Marker(pp));
+            startPlacePoint = pp;
         }
 
         //智能搜索
@@ -214,5 +199,30 @@
         });
         local.search(myValue);
     }
+</script>
+<script>
+
+
+    function beginGuide() {
+        //获取导航方式
+
+        //获取起始 和目的地经纬度
+
+
+        if (typeValue == 0) {
+            //路线推荐 1 驾车导航
+            var p1 = startPlacePoint;
+            var p2 = endPlacePoint;
+            var driving = new BMapGL.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
+            driving.search(p1, p2);
+        } else if (typeValue == 1) {
+            //路线推荐 2 公交导航
+        } else {
+            //路线推荐 3 徒步导航
+        }
+
+    }
+
+
 </script>
 </html>
