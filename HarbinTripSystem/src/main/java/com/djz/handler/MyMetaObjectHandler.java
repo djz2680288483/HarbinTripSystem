@@ -23,4 +23,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName("updateTime",new Date(),metaObject);
     }
+
+
 }

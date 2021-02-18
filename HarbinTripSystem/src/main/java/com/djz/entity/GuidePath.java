@@ -1,11 +1,13 @@
 package com.djz.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -44,6 +46,8 @@ public class GuidePath implements Serializable {
     private BigDecimal startLatitude;
 
     @ApiModelProperty("导航开始时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("start_time")
     private Date startTime;
 
@@ -61,6 +65,8 @@ public class GuidePath implements Serializable {
     private BigDecimal endLatitude;
 
     @ApiModelProperty("导航结束时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("end_time")
     private Date endTime;
 
@@ -77,17 +83,23 @@ public class GuidePath implements Serializable {
     private Integer guideType;
 
     @ApiModelProperty("创建时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("create_time")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
 
     @ApiModelProperty("更新时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("update_time")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
     @ApiModelProperty("删除时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("delete_time")
     private Date deleteTime;
 
