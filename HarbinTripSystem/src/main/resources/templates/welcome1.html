@@ -133,6 +133,10 @@
             map.centerAndZoom(pp, 18);
             //添加标注
             map.addOverlay(new BMapGL.Marker(pp));
+            // 获取搜索结果的详细地址
+            let addressEnd = local.getResults().getPoi(0).address;
+            // 将获取到的地址填充到表单
+            window.document.getElementById("endPlace").value = addressEnd;
             endPlacePoint = pp;
         }
 
@@ -190,6 +194,10 @@
             map.centerAndZoom(pp, 18);
             //添加标注
             map.addOverlay(new BMapGL.Marker(pp));
+            // 获取搜索结果的详细地址
+            let addressStart = local.getResults().getPoi(0).address;
+            // 将获取到的地址填充到表单
+            window.document.getElementById("startPlace").value = addressStart;
             startPlacePoint = pp;
         }
 
