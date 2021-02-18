@@ -60,9 +60,8 @@
 <div id="container"></div>
 <!--推荐列表-->
 <div id="searchResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
+<div id="searchStartResultPanel" style="border:1px solid #ea4335;width:150px;height:auto; display:none;"></div>
 </body>
-
-</html>
 <script type="text/javascript">
     // 百度地图API功能
     function G(id) {
@@ -110,6 +109,7 @@
         G("searchResultPanel").innerHTML = str;
     });
 
+
     var myValue;
     //鼠标点击下拉列表后的事件
     ac.addEventListener("onconfirm", function (e) {
@@ -142,7 +142,7 @@
     //获取导航方式
     var guide = document.getElementById("startGuide");
     guide.click(function () {
-        var start=document.getElementById("s");
+        var driveType=document.getElementById("driverType");
     });
 
     //获取起始 和目的地经纬度
@@ -160,3 +160,59 @@
     //路线推荐 3 徒步导航
 
 </script>
+    <script>
+    //建立一个自动完成的对象
+    var acStart = new BMapGL.Autocomplete({
+        "input": "startPlace",
+        "location": map
+    });
+    //鼠标放在下拉列表上的事件
+    acStart.addEventListener("onhighlight", function (e) {
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province + _value.city + _value.district + _value.street + _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchStartResultPanel").innerHTML = str;
+    });
+
+
+    var myValue;
+    //鼠标点击下拉列表后的事件
+    acStart.addEventListener("onconfirm", function (e) {
+        var _value = e.item.value;
+        myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+        G("searchStartResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+        setStartPlace();
+    });
+
+    function setStartPlace() {
+        //清除地图上所有覆盖物
+        map.clearOverlays();
+
+        function myFunStart() {
+            //获取第一个智能搜索的结果
+            var pp = local.getResults().getPoi(0).point;
+            map.centerAndZoom(pp, 18);
+            //添加标注
+            map.addOverlay(new BMapGL.Marker(pp));
+        }
+
+        //智能搜索
+        var local = new BMapGL.LocalSearch(map, {
+            onSearchComplete: myFunStart
+        });
+        local.search(myValue);
+    }
+</script>
+</html>

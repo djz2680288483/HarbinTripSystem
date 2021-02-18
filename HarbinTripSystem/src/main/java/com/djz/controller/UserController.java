@@ -51,7 +51,7 @@ public class UserController {
         }
         modelMap.addAttribute("user",user);
         System.out.println("==================="+user);
-        return "demo7";
+        return "welcome1";
     }
 
 }

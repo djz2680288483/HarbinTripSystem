@@ -32,7 +32,12 @@ public interface IGuidePathService {
      */
      Boolean addGuidePath(GuidePath guidePath);
 
-
+    /**
+     * 更新导航记录
+     * @param guidePath
+     * @return
+     */
+    Boolean updateGuidePath(GuidePath guidePath);
 
     /**
      * 通过id删除导航记录

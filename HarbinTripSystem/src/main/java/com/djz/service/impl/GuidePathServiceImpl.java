@@ -66,6 +66,18 @@ public class GuidePathServiceImpl implements IGuidePathService {
     }
 
     @Override
+    public Boolean updateGuidePath(GuidePath guidePath) {
+        QueryWrapper<GuidePath> query=new QueryWrapper<>();
+        query.lambda().eq(GuidePath::getUserId,guidePath.getUserId());
+        query.lambda().eq(GuidePath::getGuideType,guidePath.getGuideType());
+        int result = guidePathMapper.update(guidePath,query);
+        if (result < Constant.ONE) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public Boolean removeGuidePath(Long guideId) {
         int result = guidePathMapper.deleteById(guideId);
         if (result < Constant.ONE) {
