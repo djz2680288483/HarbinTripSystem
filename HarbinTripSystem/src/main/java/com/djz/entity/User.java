@@ -42,6 +42,10 @@ public class User implements Serializable {
     @TableId("name")
     private String name;
 
+    @ApiModelProperty("性别")
+    @TableId("sex")
+    private String sex;
+
     @ApiModelProperty("密码")
     @TableId("password")
     private String password;
@@ -83,7 +87,6 @@ public class User implements Serializable {
     @TableId("deleted")
     @TableLogic
     private Integer deleted;
-
 
 
 }
