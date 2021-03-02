@@ -35,6 +35,7 @@
     </style>
     <script type="text/javascript"
             src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
+    <script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script>
     <title>地图展示</title>
 </head>
 
@@ -44,16 +45,17 @@
     当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:200px;" readonly/>&nbsp;&nbsp;
     </br>
     <div id="r-result">
-        <form id="guide" action="#" method="post">
-            导航方式：<select class="driverType" id="driverType" style="width:100px;">
-            <option value="0">驾车</option>
-            <option value="1">公交</option>
-            <option value="2">徒步</option>
-        </select>
-            出发地: <input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
-            目的地: <input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
-            <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="开始导航"/>
-        </form>
+        <!--        <form id="guide" action="#" method="post">-->
+        导航方式：<label for="driverType"></label><select class="driverType" id="driverType" style="width:100px;">
+        <option value="0">驾车</option>
+        <option value="1">公交</option>
+        <option value="2">徒步</option>
+        <option value="3">骑行</option>
+    </select>
+        出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
+        目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
+        <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="开始导航"/>
+        <!--        </form>-->
     </div>
 </div>
 <!--地图容器-->
@@ -125,7 +127,7 @@
 
     function setPlace() {
         //清除地图上所有覆盖物
-       // map.clearOverlays();
+        // map.clearOverlays();
 
         function myFun() {
             //获取第一个智能搜索的结果
@@ -213,9 +215,9 @@
 
     function beginGuide() {
         //获取导航方式
-
+        var typeValue;
+        typeValue = $("#driverType option:selected").val();
         //获取起始 和目的地经纬度
-
 
         if (typeValue == 0) {
             //路线推荐 1 驾车导航
@@ -223,10 +225,13 @@
             var p2 = endPlacePoint;
             var driving = new BMapGL.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});
             driving.search(p1, p2);
+            alert("===========")
         } else if (typeValue == 1) {
             //路线推荐 2 公交导航
-        } else {
+        } else if (typeValue == 2) {
             //路线推荐 3 徒步导航
+        } else {
+            //路线推荐 4 骑行导航
         }
 
     }
