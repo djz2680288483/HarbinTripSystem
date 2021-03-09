@@ -50,7 +50,7 @@ public class UserController {
             return "login";
         }
         modelMap.addAttribute("user",user);
-        System.out.println("==================="+user);
+        //System.out.println("==================="+user);
         return "welcome1";
     }
 
