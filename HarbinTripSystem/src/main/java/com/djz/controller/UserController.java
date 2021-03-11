@@ -29,8 +29,7 @@ public class UserController {
     @ApiOperation("可支持测试")
     @PostMapping("/login")
     public String getLogin(String username, String pass, ModelMap modelMap) {
-//        System.out.println("登录用户：" + username);
-//        System.out.println("登录密码：" + pass);
+
         if (username.trim() == "") {
             modelMap.addAttribute("msg", "用户名或密码不能为空");
             return "login";
@@ -49,9 +48,8 @@ public class UserController {
             modelMap.addAttribute("msg", "密码错误");
             return "login";
         }
-        modelMap.addAttribute("user",user);
-        //System.out.println("==================="+user);
-        return "welcome1";
+        modelMap.addAttribute("user", user);
+        return "test";
     }
 
 }

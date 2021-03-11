@@ -51,7 +51,7 @@
         <option value="0">驾车</option>
         <option value="1">公交</option>
         <option value="2">徒步</option>
-<!--        <option value="3">骑行</option>-->
+        <!--        <option value="3">骑行</option>-->
     </select>
         出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
         目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
@@ -128,7 +128,6 @@
     function setPlace() {
         //清除地图上所有覆盖物
         // map.clearOverlays();
-
         function myFun() {
             //获取第一个智能搜索的结果
             var pp = local.getResults().getPoi(0).point;
@@ -152,7 +151,7 @@
 
     if (supportsGeoLocation()) {
     } else {
-        alert("不支持 GeoLocation.")
+        alert("不支持 GeoLocation.");
     }
 
     // 检测浏览器是否支持HTML5
@@ -170,7 +169,7 @@
         var lon = position.coords.longitude;
         var lat = position.coords.latitude;
         var point = new BMap.Point("" + lon + "", "" + lat + "");
-        // map.centerAndZoom(point,19);
+      //  map.centerAndZoom(point,19);
         var gc = new BMap.Geocoder();
         //
         translateCallback = function (point) {
@@ -182,12 +181,14 @@
                 //通过百度的地址工具从经纬度得到中文的数据
                 var addComp = rs.addressComponents;
                 if (addComp.province !== addComp.city) {
-                    var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber
-                    $("#nowPlace").val(sContent)
+                   // var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    var sContent = addComp.province + ", " + addComp.city ;
+                    // $("#nowPlace").val(sContent);
+                    $("#nowPlace").val(sContent);
                 } else {
                     var sContent =
-                        addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber
-                    $("#nowPlace").val(sContent)
+                        addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    $("#nowPlace").val(sContent);
                 }
                 var infoWindow = new BMap.InfoWindow(sContent);
                 map.openInfoWindow(infoWindow, point);
