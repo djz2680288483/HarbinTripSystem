@@ -5,8 +5,7 @@ import com.djz.entity.User;
 import com.djz.mapper.UserMapper;
 import com.djz.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,11 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class HarbinTripSystemApplicationTests {
     @Autowired
     private RedisUtils redisUtils;
-
-    @Autowired
-    RabbitTemplate rabbitTemplate;
-    @Autowired
-    AmqpTemplate amqpTemplate;
 
     @Autowired
     private UserMapper userMapper;
