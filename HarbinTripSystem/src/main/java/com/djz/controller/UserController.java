@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2021/2/15 -22:52
  */
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     IUserService userService;
 
     @ApiOperation("可支持测试")
-    @GetMapping({"/index", "/"})
+    @GetMapping({"/index"})
     public String getIndex() {
+
         return "login";
     }
 
@@ -52,4 +53,17 @@ public class UserController {
         return "test";
     }
 
+//    @ApiOperation("可支持测试")
+//    @PostMapping("/register")
+//    public String getRegister() {
+//
+//        return "register";
+//    }
+
+//    @ApiOperation("可支持测试")
+//    @PostMapping("/addUser")
+//    public String addRegister() {
+//
+//        return "test";
+//    }
 }

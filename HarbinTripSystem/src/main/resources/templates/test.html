@@ -44,7 +44,7 @@
 <!--搜索框-->
 <div id="search">
     当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;
-    </br>
+    </br></br>
     <div id="r-result">
         <!--        <form id="guide" action="#" method="post">-->
         导航方式：<label for="driverType"></label><select class="driverType" id="driverType" style="width:100px;">
@@ -78,10 +78,11 @@
         return document.getElementById(id);
     }
 
-    //百度容器div
+    //百度地图加载显示页面容器div
     var map = new BMap.Map("container");
     //Point
-    var point = new BMap.Point(126.7262, 45.74166);
+    // var point = new BMap.Point(126.7339, 45.7507);
+    // map.centerAndZoom(point, 15);
     // 初始化地图,设置城市和地图级别。
     map.centerAndZoom("哈尔滨市", 15);
 

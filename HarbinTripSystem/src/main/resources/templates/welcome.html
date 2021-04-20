@@ -43,8 +43,8 @@
 <body>
 <!--搜索框-->
 <div id="search">
-    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:200px;" readonly/>&nbsp;&nbsp;
-    </br>
+    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;
+    </br></br>
     <div id="r-result">
         <!--        <form id="guide" action="#" method="post">-->
         导航方式：<label for="driverType"></label><select class="driverType" id="driverType" style="width:100px;">
@@ -53,8 +53,8 @@
         <option value="2">徒步</option>
         <!--        <option value="3">骑行</option>-->
     </select>
-        出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:200px;"/>&nbsp;&nbsp;
-        目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:200px;"/>
+        出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:220px;"/>&nbsp;&nbsp;
+        目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:220px;"/>
         <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="开始导航"/>
         <!--        </form>-->
     </div>
@@ -78,16 +78,18 @@
         return document.getElementById(id);
     }
 
+    //百度地图加载显示页面容器div
     var map = new BMap.Map("container");
+    //Point
+    // var point = new BMap.Point(126.7339, 45.7507);
+    // map.centerAndZoom(point, 15);
     // 初始化地图,设置城市和地图级别。
     map.centerAndZoom("哈尔滨市", 15);
-
 
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true);
 
-    // //定位控件
-
+    //定位控件
     map.addControl(new BMap.CityListControl());
 
     //建立一个自动完成的对象
@@ -128,7 +130,6 @@
     function setPlace() {
         //清除地图上所有覆盖物
         // map.clearOverlays();
-
         function myFun() {
             //获取第一个智能搜索的结果
             var pp = local.getResults().getPoi(0).point;
@@ -152,7 +153,7 @@
 
     if (supportsGeoLocation()) {
     } else {
-        alert("不支持 GeoLocation.")
+        alert("不支持 GeoLocation.");
     }
 
     // 检测浏览器是否支持HTML5
@@ -170,7 +171,7 @@
         var lon = position.coords.longitude;
         var lat = position.coords.latitude;
         var point = new BMap.Point("" + lon + "", "" + lat + "");
-        // map.centerAndZoom(point,19);
+        //  map.centerAndZoom(point,19);
         var gc = new BMap.Geocoder();
         //
         translateCallback = function (point) {
@@ -182,12 +183,14 @@
                 //通过百度的地址工具从经纬度得到中文的数据
                 var addComp = rs.addressComponents;
                 if (addComp.province !== addComp.city) {
-                    var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber
-                    $("#nowPlace").val(sContent)
+                    // var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    var sContent = addComp.province + ", " + addComp.city;
+                    // $("#nowPlace").val(sContent);
+                    $("#nowPlace").val(sContent);
                 } else {
                     var sContent =
-                        addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber
-                    $("#nowPlace").val(sContent)
+                        addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                    $("#nowPlace").val(sContent);
                 }
                 var infoWindow = new BMap.InfoWindow(sContent);
                 map.openInfoWindow(infoWindow, point);
@@ -201,16 +204,16 @@
     function locationError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                alert("User denied the request for Geolocation.");
+                alert("用户拒绝了地理位置的请求");
                 break;
             case error.POSITION_UNAVAILABLE:
-                alert("Location information is unavailable.");
+                alert("当前地址信息失效");
                 break;
             case error.TIMEOUT:
-                alert("The request to get user location timed out.");
+                alert("请求用户地址超时");
                 break;
             case error.UNKNOWN_ERROR:
-                alert("An unknown error occurred.");
+                alert("发生未知错误");
                 break;
         }
     }
@@ -290,17 +293,15 @@
         //获取起始 和目的地经纬度
 
         if (typeValue == 0) {
-            //路线推荐 1 驾车导航
+            //路线推荐 0 驾车导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
             // 百度地图API功能
 
             var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
-            // alert("===========")
         } else if (typeValue == 1) {
-            //路线推荐 2 公交导航
-            //路线推荐 1 驾车导航
+            //路线推荐 1 公交导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
             // 百度地图API功能
@@ -308,8 +309,8 @@
             var driving = new BMap.TransitRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         } else if (typeValue == 2) {
-            //路线推荐 3 徒步导航
-            //路线推荐 1 驾车导航
+
+            //路线推荐 2 徒步导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
             // 百度地图API功能
@@ -317,9 +318,14 @@
             var driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         } else {
-            //路线推荐 4 骑行导航
-            //路线推荐 1 驾车导航
+
+            //路线推荐 3 骑行导航
             // 2.0版本不支持骑行
+            var p1 = startPlacePoint;
+            var p2 = endPlacePoint;
+            // 百度地图API功能
+            var driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving.search(p1, p2);
         }
 
     }
