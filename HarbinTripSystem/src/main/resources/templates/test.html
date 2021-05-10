@@ -28,7 +28,7 @@
             color: #a64bf4;
         }
 
-        endPlace {
+        #endPlace {
             color: #ea4335;
         }
 
@@ -72,6 +72,8 @@
 <script type="text/javascript">
     var startPlacePoint;
     var endPlacePoint;
+    var count = 0;
+    var driving = null;
 
     // 百度地图API功能
     function G(id) {
@@ -184,7 +186,7 @@
                 var addComp = rs.addressComponents;
                 if (addComp.province !== addComp.city) {
                     // var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
-                    var sContent = addComp.province + ", " + addComp.city;
+                    var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district;
                     // $("#nowPlace").val(sContent);
                     $("#nowPlace").val(sContent);
                 } else {
@@ -285,37 +287,47 @@
 </script>
 <script>
 
-
     function beginGuide() {
         //获取导航方式
         var typeValue;
+
         typeValue = $("#driverType option:selected").val();
         //获取起始 和目的地经纬度
-
+        if (startPlacePoint == null || endPlacePoint == null) {
+            alert("请输入出发地或者目的地");
+        }
+        count++;
         if (typeValue == 0) {
             //路线推荐 0 驾车导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
+        if(driving!=null){
+            driving.clearResults();
+        }
             // 百度地图API功能
+            driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
 
-            var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         } else if (typeValue == 1) {
             //路线推荐 1 公交导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
+            if(driving!=null){
+                driving.clearResults();
+            }
             // 百度地图API功能
-
-            var driving = new BMap.TransitRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.TransitRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         } else if (typeValue == 2) {
 
             //路线推荐 2 徒步导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
+            if(driving!=null){
+                driving.clearResults();
+            }
             // 百度地图API功能
-
-            var driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         } else {
 
@@ -323,13 +335,15 @@
             // 2.0版本不支持骑行
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
+            if(driving!=null){
+                driving.clearResults();
+            }
             // 百度地图API功能
-            var driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         }
 
     }
-
 
 </script>
 </html>
