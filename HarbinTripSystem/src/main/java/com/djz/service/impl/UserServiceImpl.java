@@ -36,4 +36,9 @@ public class UserServiceImpl implements IUserService {
         queryWrapper.lambda().eq(User::getName, username);
         return userMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public int addUser(User user) {
+       return userMapper.insert(user);
+    }
 }

@@ -8,62 +8,53 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Map;
 
 /**
  * @author djz
  * @date 2021/2/15 -22:52
  */
 @Controller
-@RequestMapping("/user")
 public class UserController {
     @Autowired
     IUserService userService;
 
     @ApiOperation("可支持测试")
-    @GetMapping({"/index"})
+    @GetMapping({"/index", "/"})
     public String getIndex() {
-
         return "login";
     }
 
     @ApiOperation("可支持测试")
-    @PostMapping("/login")
-    public String getLogin(String username, String pass, ModelMap modelMap) {
+    @PostMapping("/user/login")
+    public String getLogin(String username, String pass, Map<String, Object> modelMap) {
 
-        if (username.trim() == "") {
-            modelMap.addAttribute("msg", "用户名或密码不能为空");
-            return "login";
-        }
-        if (username.trim() == "") {
-            modelMap.addAttribute("msg", "用户名或密码不能为空");
-            return "login";
-        }
         User user = userService.getUser(username);
         if (("").equals(user) || user == null) {
 
-            modelMap.addAttribute("msg", "登录用户名不存在");
-            return "login";
+            modelMap.put("msg", "登录用户名不存在");
+           return "redirect:../";
         }
         if (!user.getPassword().equals(pass)) {
-            modelMap.addAttribute("msg", "密码错误");
-            return "login";
+            modelMap.put("msg", "密码错误");
+            return "redirect:../";
         }
-        modelMap.addAttribute("user", user);
+        modelMap.put("user", user);
         return "test";
     }
 
-//    @ApiOperation("可支持测试")
-//    @PostMapping("/register")
-//    public String getRegister() {
-//
-//        return "register";
-//    }
+    @ApiOperation("可支持测试")
+    @GetMapping("/user/register")
+    public String getRegister() {
 
-//    @ApiOperation("可支持测试")
-//    @PostMapping("/addUser")
-//    public String addRegister() {
-//
-//        return "test";
-//    }
+        return "register";
+    }
+
+    @ApiOperation("可支持测试")
+    @PostMapping("/user/addUser")
+    public String addRegister() {
+
+        return "redirect:../";
+    }
 }

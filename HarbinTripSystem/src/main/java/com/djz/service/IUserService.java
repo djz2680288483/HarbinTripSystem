@@ -14,6 +14,7 @@ import com.djz.entity.User;
 public interface IUserService {
     /**
      * 用户登录
+     *
      * @param user
      * @return
      */
@@ -21,8 +22,17 @@ public interface IUserService {
 
     /**
      * 获取用户信息判断是否为合法用户
+     *
      * @param username
      * @return
      */
     public User getUser(String username);
+
+    /**
+     * 注册用户
+     *
+     * @param user
+     * @return
+     */
+    int addUser(User user);
 }
