@@ -1,6 +1,5 @@
 package com.djz;
 
-import com.djz.entity.Demo;
 import com.djz.entity.User;
 import com.djz.mapper.UserMapper;
 import com.djz.utils.RedisUtils;
@@ -16,13 +15,6 @@ class HarbinTripSystemApplicationTests {
 
     @Autowired
     private UserMapper userMapper;
-
-    void contextLoads() {
-        Demo demo = new Demo(1001L, "李四", 21);
-        redisUtils.set("1001", demo);
-
-        System.out.println(redisUtils.get("1001"));
-    }
 
     @Test
     void contextLoads2() {
