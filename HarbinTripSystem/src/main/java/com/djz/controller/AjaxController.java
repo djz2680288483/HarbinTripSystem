@@ -91,7 +91,7 @@ public class AjaxController {
             guide.setCreateTime(new Date());
             Boolean result = guideService.addGuide(guide);
             if (result) {
-                return "当前导航记录已存储";
+                return "本次导航记录已存储";
             }
         }
         return "no";

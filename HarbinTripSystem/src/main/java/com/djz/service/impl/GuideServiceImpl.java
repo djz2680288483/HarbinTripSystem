@@ -1,11 +1,17 @@
 package com.djz.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.djz.common.Constant;
+import com.djz.common.DateUtil;
 import com.djz.entity.Guide;
+import com.djz.entity.GuidePath;
 import com.djz.mapper.GuideMapper;
 import com.djz.service.IGuideService;
+import com.djz.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author djz
@@ -27,5 +33,15 @@ public class GuideServiceImpl implements IGuideService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<Guide> queryGuide(String name) {
+        QueryWrapper<Guide> query = new QueryWrapper<>();
+        if (StringUtils.isNotEmpty(name)) {
+            query.lambda().eq(Guide::getUsername, name);
+        }
+        query.lambda().orderByDesc(Guide::getCreateTime);
+        return guideMapper.selectList(query);
     }
 }
