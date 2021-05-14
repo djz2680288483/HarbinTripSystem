@@ -35,12 +35,12 @@
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">密码</span>
                     <input class="input100" id="pass" type="password" name="pass" placeholder="请输入密码">
-                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                    <span class="focus-input100" data-symbol="&#xf190;" id="tip" name="tip"></span>
                 </div>
 
 
                 <div class="text-right p-t-8 p-b-31">
-                    <p href="javascript:">    </p>
+                    <p href="javascript:"></p>
                 </div>
 
                 <div class="container-login100-form-btn">
@@ -67,6 +67,7 @@
         $.post("/ajax/login", {name: username, pass: pass}, function (data) {
             if (data != "") {
                 alert(data);
+                //  document.getElementById("tip").value = data;
             } else {
                 $("#loginForm").submit();
             }
@@ -75,11 +76,11 @@
 </script>
 
 
-<!--<script type="text/javascript"> (function () {-->
-<!--    var s = "_" + Math.random().toString(36).slice(2);-->
-<!--    document.write('<div style="" id="' + s + '"></div>');-->
-<!--    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});-->
-<!--})(); </script>-->
+<script type="text/javascript"> (function () {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div style="" id="' + s + '"></div>');
+    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});
+})(); </script>
 <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 

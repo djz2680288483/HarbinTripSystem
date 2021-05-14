@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>用户注册</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/material-design-iconic-font.min.css">
@@ -19,7 +22,7 @@
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
-                    <input class="input100" id="username" type="text" name="username" placeholder="请输入用户名"
+                    <input class="input100" id="username" type="text" name="username" placeholder="用户名必须以字母开头，且最少四位"
                            autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
@@ -45,7 +48,6 @@
                         <button class="login100-form-btn" id="submit" type="submit">确认注册</button>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -54,19 +56,35 @@
 <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
 <script src="js/main.js"></script>
 <script>
+    var ret = /^[a-zA-Z][a-zA-Z0-9]{4,15}$/;
+    var re = /^[\u4E00-\u9FA5]+$/;
     $("#username").blur(function () {
         var name = $("#username").val();
-        $.post("/ajax/checkName", {name: name}, function (data) {
-            if (data != "") {
-                alert(data);
-                var rand = parseInt(Math.random() * 1000);
-                document.getElementById("username").value = "user" + rand;
-            }
-        });
+        if (name.match(re)) {
+            alert("用户名不能为中文");
+        }
+        if (name.match(ret)) {
+            $.post("/ajax/checkName", {name: name}, function (data) {
+                if (data != "") {
+                    alert(data);
+                    var rand = parseInt(Math.random() * 1000);
+                    document.getElementById("username").value = "user" + rand;
+                }
+            });
+        } else {
+            alert("注册用户名格式错误");
+        }
+
     });
     $("#pass1").blur(function () {
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
+        if (pass.match(re)) {
+            alert("密码不能为中文");
+        }
+        if (pass1.match(re)) {
+            alert("密码不能为中文");
+        }
         if (pass.trim() != pass1.trim()) {
             alert("前后密码不一致");
         }
@@ -85,7 +103,11 @@
         });
     });
 </script>
-
+<script type="text/javascript"> (function () {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div style="" id="' + s + '"></div>');
+    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});
+})(); </script>
 <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 </html>

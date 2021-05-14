@@ -1,7 +1,10 @@
 package com.djz.controller;
 
+import com.djz.entity.Guide;
 import com.djz.entity.User;
+import com.djz.service.IGuideService;
 import com.djz.service.IUserService;
+import com.djz.utils.CryptUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +21,20 @@ import java.util.Date;
 public class AjaxController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IGuideService guideService;
 
     @ApiOperation("可支持测试")
     @PostMapping("/ajax/login")
-    public String getLogin(String name, String pass) {
+    public String getLogin(String name, String pass) throws Exception {
         String msg = "";
-        System.out.println(name);
         User user = userService.getUser(name);
-        if (("").equals(user) || user == null) {
+        if (user == null) {
             msg = "登录用户名不存在";
             return msg;
         }
-        if (!user.getPassword().equals(pass)) {
+        String cryptPass = CryptUtils.decode(user.getPassword());
+        if (!cryptPass.equals(pass)) {
             msg = "密码错误";
             return msg;
         }
@@ -50,15 +55,21 @@ public class AjaxController {
 
     @ApiOperation("可支持测试")
     @PostMapping("/ajax/registerUser")
-    public String registerUser(String name, String pass, String pass1) {
+    public String registerUser(String name, String pass, String pass1) throws Exception {
+
         String msg = "注册成功";
+        if ("".equals(name)) {
+            msg = "注册用户名异常";
+            return msg;
+        }
         if (!pass.trim().equals(pass1.trim())) {
             msg = "前后密码不一致";
             return msg;
         }
+        String cryptPass = CryptUtils.encode(pass);
         User user = new User();
         user.setName(name);
-        user.setPassword(pass);
+        user.setPassword(cryptPass);
         user.setCreateTime(new Date());
         int result = userService.addUser(user);
         if (result > 0) {
@@ -67,4 +78,20 @@ public class AjaxController {
         msg = "注册失败";
         return msg;
     }
+
+    @ApiOperation("可支持测试")
+    @PostMapping("/ajax/addGuideHistory")
+    public String addGuidePlace(Guide guide) {
+        if (guide != null) {
+            guide.setCreateTime(new Date());
+            Boolean result = guideService.addGuide(guide);
+            if (result) {
+                return "当前导航记录已存储";
+            }
+        }
+        return "no";
+
+    }
+
+
 }

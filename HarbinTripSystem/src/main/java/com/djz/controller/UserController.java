@@ -2,10 +2,10 @@ package com.djz.controller;
 
 import com.djz.entity.User;
 import com.djz.service.IUserService;
+import com.djz.utils.CryptUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,20 +23,21 @@ public class UserController {
     @ApiOperation("可支持测试")
     @GetMapping({"/index", "/"})
     public String getIndex() {
+
         return "login";
     }
 
     @ApiOperation("可支持测试")
     @PostMapping("/user/login")
-    public String getLogin(String username, String pass, Map<String, Object> modelMap) {
+    public String getLogin(String username, String pass, Map<String, Object> modelMap) throws Exception {
 
         User user = userService.getUser(username);
-        if (("").equals(user) || user == null) {
-
+        if (user == null) {
             modelMap.put("msg", "登录用户名不存在");
-           return "redirect:../";
+            return "redirect:../";
         }
-        if (!user.getPassword().equals(pass)) {
+        String cryptPass = CryptUtils.decode(user.getPassword());
+        if (!cryptPass.equals(pass)) {
             modelMap.put("msg", "密码错误");
             return "redirect:../";
         }

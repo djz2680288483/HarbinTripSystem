@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
@@ -43,7 +43,8 @@
 <body>
 <!--搜索框-->
 <div id="search">
-    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;
+    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
+    当前用户: <input type="text" name="nowUser" id="nowUser" style="width:180px;" th:value="${user.getName()}" readonly/>
     </br></br>
     <div id="r-result">
         <!--        <form id="guide" action="#" method="post">-->
@@ -54,7 +55,7 @@
         <!--        <option value="3">骑行</option>-->
     </select>
         出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:220px;"/>&nbsp;&nbsp;
-        目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:220px;"/>
+        目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:220px;"/>&nbsp;&nbsp;
         <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="开始导航"/>
         <!--        </form>-->
     </div>
@@ -301,7 +302,7 @@
             //路线推荐 0 驾车导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
-            if(driving!=null){
+            if (driving != null) {
                 driving.clearResults();
             }
             // 百度地图API功能
@@ -312,7 +313,7 @@
             //路线推荐 1 公交导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
-            if(driving!=null){
+            if (driving != null) {
                 driving.clearResults();
             }
             // 百度地图API功能
@@ -323,7 +324,7 @@
             //路线推荐 2 徒步导航
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
-            if(driving!=null){
+            if (driving != null) {
                 driving.clearResults();
             }
             // 百度地图API功能
@@ -335,14 +336,29 @@
             // 2.0版本不支持骑行
             var p1 = startPlacePoint;
             var p2 = endPlacePoint;
-            if(driving!=null){
+            if (driving != null) {
                 driving.clearResults();
             }
             // 百度地图API功能
             driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         }
+        var start = $("#startPlace").val();
+        var end = $("#endPlace").val();
+        var name = $("#nowUser").val();
 
+        $.post("/ajax/addGuideHistory", {
+            startLongitude: startPlacePoint.lng,
+            startLatitude: startPlacePoint.lat,
+            endLongitude: endPlacePoint.lng,
+            endLatitude: endPlacePoint.lat,
+            username: name,
+            guideType: typeValue,
+            startPlace: start,
+            endPlace: end
+        }, function (data) {
+            alert(data);
+        });
     }
 
 </script>
