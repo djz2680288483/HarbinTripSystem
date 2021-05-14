@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -28,9 +30,15 @@ public class UserController {
     }
 
     @ApiOperation("可支持测试")
-    @PostMapping("/user/login")
-    public String getLogin(String username, String pass, Map<String, Object> modelMap) throws Exception {
+    @PostMapping({"/index", "/"})
+    public String getIndex1() {
+        return "login";
+    }
 
+    @ApiOperation("可支持测试")
+    @PostMapping("/user/login")
+    public String getLogin(String username, String pass, Map<String, Object> modelMap, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession(true);
         User user = userService.getUser(username);
         if (user == null) {
             modelMap.put("msg", "登录用户名不存在");
@@ -41,7 +49,7 @@ public class UserController {
             modelMap.put("msg", "密码错误");
             return "redirect:../";
         }
-        modelMap.put("user", user);
+        session.setAttribute("user", user.getName());
         return "test";
     }
 
@@ -56,6 +64,14 @@ public class UserController {
     @PostMapping("/user/addUser")
     public String addRegister() {
 
+        return "forward:../";
+    }
+
+    @ApiOperation("可支持测试")
+    @GetMapping("/user/logout")
+    public String loginOut(HttpSession session) {
+        session.removeAttribute("user");
+        session.invalidate();
         return "redirect:../";
     }
 }

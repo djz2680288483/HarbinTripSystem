@@ -18,7 +18,7 @@
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form class="login100-form validate-form" action="/index" method="post" id="loginForm">
                 <span class="login100-form-title p-b-49">用户注册</span>
-
+                <span class="login100-form-title p-b-23" style="color: red;" id="tip"/>
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
@@ -29,12 +29,15 @@
 
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">输入密码</span>
+                    <span id="sp1"></span>
                     <input class="input100" id="pass" type="password" name="pass" placeholder="请输入密码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
+
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">再次输入密码</span>
-                    <input class="input100" id="pass1" type="password" name="pass" placeholder="请输入密码">
+                    <span id="sp2"></span>
+                    <input class="input100" id="pass1" type="password" name="pass1" placeholder="请输入密码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
 
@@ -45,7 +48,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" id="sub" onclick="registerBtn()" type="button">确认注册</button>
+                        <button class="login100-form-btn" id="submit" type="submit">确认注册</button>
                     </div>
                 </div>
             </form>
@@ -56,12 +59,13 @@
 <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
 <script src="js/main.js"></script>
 <script>
-    var ret = /^[a-zA-Z][a-zA-Z0-9]{4,15}$/;
+    var ret = /^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
     var re = /^[\u4E00-\u9FA5]+$/;
     $("#username").blur(function () {
         var name = $("#username").val();
         if (name.match(re)) {
-            alert("用户名不能为中文");
+            document.getElementById("tip").innerText = "密码最少位5位";
+            // alert("用户名不能为中文");
         }
         if (name.match(ret)) {
             $.post("/ajax/checkName", {name: name}, function (data) {
@@ -72,32 +76,47 @@
                 }
             });
         } else {
-            alert("注册用户名格式错误");
+            document.getElementById("tip").innerText = "注册用户名格式错误";
+            // alert("注册用户名格式错误");
         }
 
     });
-    $("#pass1").blur(function () {
-        var pass = $("#pass").val();
-        var pass1 = $("#pass1").val();
+    var rep = /^.{5,}$/;
 
-        if (pass.trim() != pass1.trim()) {
+    $("#pass1").change(function () {
+        var pass1 = $("#pass1").val();
+        var pass = $("#pass").val();
+        if (!pass.match(rep)) {
+            document.getElementById("tip").innerText = "密码最少位5位";
+        }
+        if (pass.trim() !== pass1.trim()) {
+            document.getElementById("tip").innerText = "前后密码不一致";
             alert("前后密码不一致");
         }
     });
-
-    function registerBtn() {
+    $("#submit").click(function () {
         var username = $("#username").val();
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
-        $.post("/ajax/registerUser", {name: username, pass: pass, pass1: pass1}, function (data) {
-            alert(data);
-            $("#loginForm").submit();
-            document.getElementById("sub").onsubmit;
-        });
-    }
+        if (pass.trim() != pass1.trim()) {
 
+        } else {
+            $.post("/ajax/registerUser", {name: username, pass: pass, pass1: pass1}, function (data) {
+                if (!"".equals(data)) {
+                    document.getElementById("tip").innerText = data;
+                    if ("200".equals(data)) {
+                        $("#loginForm").submit();
+                    }
+                }
+            });
+        }
+    });
 </script>
-
+<script type="text/javascript"> (function () {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div style="" id="' + s + '"></div>');
+    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});
+})(); </script>
 <script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 </html>

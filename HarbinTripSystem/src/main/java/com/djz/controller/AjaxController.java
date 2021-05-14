@@ -55,11 +55,15 @@ public class AjaxController {
 
     @ApiOperation("可支持测试")
     @PostMapping("/ajax/registerUser")
-    public String registerUser(String name, String pass, String pass1) throws Exception {
+    public String registerUser(String name, String pass, String pass1)  {
 
-        String msg = "注册成功";
+        String msg = "";
         if ("".equals(name)) {
             msg = "注册用户名异常";
+            return msg;
+        }
+        if (pass.trim().length() < 5) {
+            msg = "密码过于简单，请重新设置";
             return msg;
         }
         if (!pass.trim().equals(pass1.trim())) {
@@ -73,6 +77,7 @@ public class AjaxController {
         user.setCreateTime(new Date());
         int result = userService.addUser(user);
         if (result > 0) {
+            msg = "注册成功";
             return msg;
         }
         msg = "注册失败";

@@ -43,9 +43,13 @@
 <body>
 <!--搜索框-->
 <div id="search">
-    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
-    当前用户: <input type="text" name="nowUser" id="nowUser" style="width:180px;" th:value="${user.getName()}" readonly/>
-    </br></br>
+    </br>
+    <form id="log" action="/user/logout" method="get">
+        当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
+        当前用户: <input type="text" name="nowUser" id="nowUser" style="width:100px; color: #a64bf4;font-weight: 600" th:value="${session.user}" readonly/>
+        <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="注销"/>
+    </form>
+    </br>
     <div id="r-result">
         <!--        <form id="guide" action="#" method="post">-->
         导航方式：<label for="driverType"></label><select class="driverType" id="driverType" style="width:100px;">
