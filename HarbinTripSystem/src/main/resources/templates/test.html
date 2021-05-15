@@ -51,7 +51,7 @@
                      th:value="${session.user}" readonly/>&nbsp;&nbsp;
         <input type="button" name="changePass" id="changePass" style="width: 70px;color: rebeccapurple" value="修改密码"
                onclick="updatePass()"/>&nbsp;&nbsp;
-        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" value="历史导航记录"/>
+        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" onclick="History()" value="历史导航记录"/>
         <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="注销"/>
     </form>
     </br>
@@ -312,6 +312,11 @@
     function updatePass() {
         var name = $("#nowUser").val();
         location.href = "/user/changePass/" + name;
+    }
+
+    function History() {
+        var name = $("#nowUser").val();
+        location.href = "/user/history/" + name;
     }
 
     function beginGuide() {

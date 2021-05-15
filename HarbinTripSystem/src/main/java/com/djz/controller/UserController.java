@@ -81,7 +81,14 @@ public class UserController {
     @ApiOperation("可支持测试")
     @GetMapping("/user/changePass/{name}")
     public String changePass(String name, HttpSession session) {
-        session.setAttribute("username",name);
+        session.setAttribute("username", name);
         return "change";
+    }
+
+    @ApiOperation("可支持测试")
+    @GetMapping("/user/history/{name}")
+    public String history(String name, HttpSession session) {
+        session.setAttribute("username", name);
+        return "history";
     }
 }
