@@ -55,7 +55,7 @@ public class AjaxController {
 
     @ApiOperation("可支持测试")
     @PostMapping("/ajax/registerUser")
-    public String registerUser(String name, String pass, String pass1)  {
+    public String registerUser(String name, String pass, String pass1) {
 
         String msg = "";
         if ("".equals(name)) {
@@ -63,7 +63,7 @@ public class AjaxController {
             return msg;
         }
         if (pass.trim().length() < 5) {
-            msg = "密码过于简单，请重新设置";
+            msg = "密码过于简单，请重新设置。最少为密码5五位";
             return msg;
         }
         if (!pass.trim().equals(pass1.trim())) {
@@ -91,11 +91,10 @@ public class AjaxController {
             guide.setCreateTime(new Date());
             Boolean result = guideService.addGuide(guide);
             if (result) {
-                return "本次导航记录已存储";
+                return "本次导航记录已存储数据库";
             }
         }
         return "no";
-
     }
 
 
