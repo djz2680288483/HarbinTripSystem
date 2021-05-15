@@ -46,8 +46,12 @@
     </br>
     <form id="log" action="/user/logout" method="post">
         当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
-        当前用户: <input type="text" name="nowUser" id="nowUser" style="width:100px; color: #a64bf4;font-weight: 600"
-                     th:value="${session.user}" readonly/>
+        当前用户: <input type="text" name="nowUser" id="nowUser"
+                     style="width:100px;background-color: white; color: #a64bf4;font-weight: 600"
+                     th:value="${session.user}" readonly/>&nbsp;&nbsp;
+        <input type="button" name="changePass" id="changePass" style="width: 70px;color: rebeccapurple" value="修改密码"
+               onclick="updatePass()"/>&nbsp;&nbsp;
+        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" value="历史导航记录"/>
         <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="注销"/>
     </form>
     </br>
@@ -305,6 +309,10 @@
     }
 </script>
 <script>
+    function updatePass() {
+        var name = $("#nowUser").val();
+        location.href = "/user/changePass/" + name;
+    }
 
     function beginGuide() {
         //获取导航方式
@@ -378,6 +386,7 @@
             alert(data);
         });
     }
+
 
 </script>
 </html>

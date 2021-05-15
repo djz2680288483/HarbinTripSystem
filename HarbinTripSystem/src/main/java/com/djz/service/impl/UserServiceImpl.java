@@ -2,11 +2,14 @@ package com.djz.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.djz.entity.User;
 import com.djz.mapper.UserMapper;
 import com.djz.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -39,6 +42,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int addUser(User user) {
-       return userMapper.insert(user);
+        return userMapper.insert(user);
+    }
+
+    @Override
+    public int updateUserByName(String name, String pass) {
+        UpdateWrapper<User> query = new UpdateWrapper<>();
+        query.lambda().eq(User::getName, name);
+        User user = new User();
+        user.setUpdateTime(new Date());
+        user.setPassword(pass);
+        return userMapper.update(user, query);
     }
 }

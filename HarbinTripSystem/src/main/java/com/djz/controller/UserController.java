@@ -77,4 +77,11 @@ public class UserController {
         session.invalidate();
         return "login";
     }
+
+    @ApiOperation("可支持测试")
+    @GetMapping("/user/changePass/{name}")
+    public String changePass(String name, HttpSession session) {
+        session.setAttribute("username",name);
+        return "change";
+    }
 }

@@ -43,9 +43,18 @@
 <body>
 <!--搜索框-->
 <div id="search">
-    当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
-    当前用户: <input type="text" name="nowUser" id="nowUser" style="width:180px;" th:value="${user.getName()}" readonly/>
-    </br></br>
+    </br>
+    <form id="log" action="/user/logout" method="post">
+        当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
+        当前用户: <input type="text" name="nowUser" id="nowUser"
+                     style="width:100px;background-color: white; color: #a64bf4;font-weight: 600"
+                     th:value="${session.user}" readonly/>&nbsp;&nbsp;
+        <input type="button" name="changePass" id="changePass" style="width: 70px;color: rebeccapurple" value="修改密码"
+               onclick="changePass()"/>&nbsp;&nbsp;
+        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" value="历史导航记录"/>
+        <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="注销"/>
+    </form>
+    </br>
     <div id="r-result">
         <!--        <form id="guide" action="#" method="post">-->
         导航方式：<label for="driverType"></label><select class="driverType" id="driverType" style="width:100px;">
@@ -87,10 +96,23 @@
     // var point = new BMap.Point(126.7339, 45.7507);
     // map.centerAndZoom(point, 15);
     // 初始化地图,设置城市和地图级别。
-    map.centerAndZoom("哈尔滨市", 15);
+    map.centerAndZoom("哈尔滨市", 17);
 
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true);
+
+    var geoc = new BMap.Geocoder();
+    map.addEventListener("click", function (e) {
+        //通过点击百度地图，可以获取到对应的point, 由point的lng、lat属性就可以获取对应的经度纬度
+        var pt = e.point;
+        geoc.getLocation(pt, function (rs) {
+            //addressComponents对象可以获取到详细的地址信息
+            var addComp = rs.addressComponents;
+            var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+            //将对应的HTML元素设置值
+            alert(site);
+        });
+    });
 
     //定位控件
     map.addControl(new BMap.CityListControl());
@@ -340,7 +362,7 @@
                 driving.clearResults();
             }
             // 百度地图API功能
-            driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.BikingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         }
         var start = $("#startPlace").val();
@@ -359,6 +381,11 @@
         }, function (data) {
             alert(data);
         });
+    }
+    function changePass() {
+        var username = document.getElementById("nowUser").val();
+        var url="/user/changePass/"+username;
+        location.href=url;
     }
 
 </script>

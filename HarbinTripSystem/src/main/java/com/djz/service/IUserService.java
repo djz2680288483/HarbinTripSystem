@@ -35,4 +35,13 @@ public interface IUserService {
      * @return
      */
     int addUser(User user);
+
+    /**
+     * 根据用户名修改密码
+     *
+     * @param name
+     * @param pass
+     * @return
+     */
+    int updateUserByName(String name, String pass);
 }

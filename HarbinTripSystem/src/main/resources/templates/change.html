@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>用户注册</title>
+    <title>用户密码修改</title>
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -17,23 +17,28 @@
     <div class="container-login100" style="background-image: url('/images/bg-01.jpg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
             <form class="login100-form validate-form" action="/index" method="post" id="loginForm">
-                <span class="login100-form-title p-b-49">用户注册</span>
+                <span class="login100-form-title p-b-49">密码修改</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
-                    <input class="input100" id="username" type="text" name="username" placeholder="用户名必须以字母开头，且最少四位"
+                    <input class="input100" id="username" type="text" name="username" th:value="${session.user}"
+                           readonly
                            autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
-
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
-                    <span class="label-input100">输入密码</span>
+                    <span class="label-input100">请输入旧密码</span>
+                    <input class="input100" id="oldPass" type="password" name="oldPass" placeholder="请输入密码">
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="请输入密码">
+                    <span class="label-input100">输入新密码</span>
                     <input class="input100" id="pass" type="password" name="pass" placeholder="请输入密码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
-                    <span class="label-input100">再次输入密码</span>
+                    <span class="label-input100">再次输入新密码</span>
                     <input class="input100" id="pass1" type="password" name="pass" placeholder="请输入密码">
                     <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
@@ -45,7 +50,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" id="sub" onclick="registerBtn()" type="button">确认注册</button>
+                        <button class="login100-form-btn" id="sub" onclick="updateBtn()" type="button">确认修改</button>
                     </div>
                 </div>
             </form>
@@ -56,42 +61,30 @@
 <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
 <script src="js/main.js"></script>
 <script>
-    var ret = /^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
-    var re = /^[\u4E00-\u9FA5]+$/;
-    $("#username").blur(function () {
-        var name = $("#username").val();
-        if (name.match(re)) {
-            alert("用户名不能为中文");
-        }
-        if (name.match(ret)) {
-            $.post("/ajax/checkName", {name: name}, function (data) {
-                if (data != "") {
-                    alert(data);
-                    var rand = parseInt(Math.random() * 1000);
-                    document.getElementById("username").value = "user" + rand;
-                }
-            });
-        } else {
-            alert("注册用户名格式错误");
-        }
 
+    $("#oldPass").blur(function () {
+        var name = $("#username").val();
+        var old = $("#oldPass").val();
+        $.post("/ajax/checkPass", {username: name, oldPass: old}, function (data) {
+            alert(data);
+        });
     });
     $("#pass1").blur(function () {
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
-
         if (pass.trim() != pass1.trim()) {
             alert("前后密码不一致");
         }
     });
 
-    function registerBtn() {
+    function updateBtn() {
         var username = $("#username").val();
+        var oldPass = $("#oldPass").val();
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
-        $.post("/ajax/registerUser", {name: username, pass: pass, pass1: pass1}, function (data) {
+        $.post("/ajax/updatePass", {name: username, oldPass: oldPass, pass: pass, pass1: pass1}, function (data) {
             var str = data;
-            if ("注册成功" === str) {
+            if ("修改成功" === str) {
                 alert(str);
                 $("#loginForm").submit();
                 document.getElementById("sub").onsubmit;

@@ -19,6 +19,8 @@ import java.util.Date;
  */
 @RestController
 public class AjaxController {
+    public static final Integer FIVE = 5;
+    public static final Integer ZERO = 0;
     @Autowired
     IUserService userService;
     @Autowired
@@ -62,7 +64,7 @@ public class AjaxController {
             msg = "注册用户名异常";
             return msg;
         }
-        if (pass.trim().length() < 5) {
+        if (pass.trim().length() < FIVE) {
             msg = "密码过于简单，请重新设置。最少为密码5五位";
             return msg;
         }
@@ -71,16 +73,13 @@ public class AjaxController {
             return msg;
         }
         String cryptPass = CryptUtils.encode(pass);
-        User user = new User();
-        user.setName(name);
-        user.setPassword(cryptPass);
-        user.setCreateTime(new Date());
-        int result = userService.addUser(user);
-        if (result > 0) {
-            msg = "注册成功";
+
+        int result = userService.updateUserByName(name, cryptPass);
+        if (result > ZERO) {
+            msg = "修改成功";
             return msg;
         }
-        msg = "注册失败";
+        msg = "修改失败";
         return msg;
     }
 
@@ -97,5 +96,59 @@ public class AjaxController {
         return "no";
     }
 
+    @ApiOperation("可支持测试")
+    @PostMapping("/ajax/checkPass")
+    public String checkPass(String username, String oldPass) {
+        String msg = "";
+        User user = userService.getUser(username.trim());
+        if (user != null) {
+            String cryptPass = CryptUtils.decode(user.getPassword());
+            if (!cryptPass.equals(oldPass)) {
+                msg = "密码错误";
+                return msg;
+            } else {
+                msg = "旧密码正确，请输入新密码";
+                return msg;
+            }
+        }
+        msg = "用户异常";
+        return msg;
+    }
 
+
+    @ApiOperation("可支持测试")
+    @PostMapping("/ajax/updatePass")
+    public String updatePass(String name, String oldPass, String pass, String pass1) {
+        String msg = "";
+        if ("".equals(name)) {
+            msg = "用户名获取异常";
+            return msg;
+        }
+        User user = userService.getUser(name);
+        if (user != null) {
+            String oldPassword = CryptUtils.decode(user.getPassword());
+            if ("".equals(oldPass) || !oldPass.equals(oldPassword)) {
+                msg = "旧密码验证错误";
+                return msg;
+            }
+            if (pass.trim().length() < FIVE) {
+                msg = "密码过于简单，请重新设置。最少为密码5五位";
+                return msg;
+            }
+            if (!pass.trim().equals(pass1.trim())) {
+                msg = "前后密码不一致";
+                return msg;
+            }
+            String cryptPass = CryptUtils.encode(pass);
+            user.setPassword(cryptPass);
+            int result = userService.updateUserByName(name, cryptPass);
+            if (result > ZERO) {
+                msg = "修改成功";
+                return msg;
+            }
+        }
+
+        msg = "修改失败";
+        return msg;
+    }
 }
