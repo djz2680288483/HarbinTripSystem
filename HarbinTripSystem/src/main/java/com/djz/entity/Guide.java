@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,7 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @ApiModel("导航数据实体")
 @TableName("guide")
-public class Guide {
+public class Guide implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("id")
