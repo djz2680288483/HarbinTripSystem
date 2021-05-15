@@ -44,7 +44,7 @@
 <!--搜索框-->
 <div id="search">
     </br>
-    <form id="log" action="/user/logout" method="get">
+    <form id="log" action="/user/logout" method="post">
         当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
         当前用户: <input type="text" name="nowUser" id="nowUser" style="width:100px; color: #a64bf4;font-weight: 600"
                      th:value="${session.user}" readonly/>
