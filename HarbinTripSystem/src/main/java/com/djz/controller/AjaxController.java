@@ -65,7 +65,7 @@ public class AjaxController {
             return msg;
         }
         if (pass.trim().length() < FIVE) {
-            msg = "密码过于简单，请重新设置。最少为密码5五位";
+            msg = "密码过于简单，请重新设置。密码最少为5位";
             return msg;
         }
         if (!pass.trim().equals(pass1.trim())) {
@@ -135,7 +135,7 @@ public class AjaxController {
                 return msg;
             }
             if (pass.trim().length() < FIVE) {
-                msg = "密码过于简单，请重新设置。最少为密码5五位";
+                msg = "密码过于简单，请重新设置。密码最少为5位";
                 return msg;
             }
             if (!pass.trim().equals(pass1.trim())) {
@@ -150,7 +150,6 @@ public class AjaxController {
                 return msg;
             }
         }
-
         msg = "修改失败";
         return msg;
     }

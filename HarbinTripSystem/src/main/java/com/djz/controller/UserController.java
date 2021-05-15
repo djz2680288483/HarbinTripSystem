@@ -42,6 +42,7 @@ public class UserController {
     public String getLogin(String username, String pass, Map<String, Object> modelMap, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(true);
         ServletContext application = session.getServletContext();
+        System.out.println("==========" + session.getId());
         User user = userService.getUser(username);
         if (user == null) {
             modelMap.put("msg", "登录用户名不存在");
