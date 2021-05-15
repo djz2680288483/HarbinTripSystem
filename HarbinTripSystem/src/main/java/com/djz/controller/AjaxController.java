@@ -72,14 +72,17 @@ public class AjaxController {
             msg = "前后密码不一致";
             return msg;
         }
+        User user = new User();
         String cryptPass = CryptUtils.encode(pass);
-
-        int result = userService.updateUserByName(name, cryptPass);
+        user.setName(name);
+        user.setPassword(cryptPass);
+        user.setCreateTime(new Date());
+        int result = userService.addUser(user);
         if (result > ZERO) {
-            msg = "修改成功";
+            msg = "注册成功";
             return msg;
         }
-        msg = "修改失败";
+        msg = "注册失败";
         return msg;
     }
 
