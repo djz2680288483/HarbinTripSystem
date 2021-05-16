@@ -11,16 +11,12 @@
 
         #search {
             width: 50%;
-            background-color: palegreen;
+            background-color: seashell;
             height: 100%;
             border: 1px;
             position: fixed;
         }
 
-        #container {
-            height: 100%;
-
-        }
 
     </style>
     <script type="text/javascript"
@@ -37,25 +33,30 @@
     <input type="button" name="back" id="back" style="width: 50px;color: #7f7f7f; float:right" value="返回"
            onclick="backPage()"/>
     <br/>
-    <th id="history" style="color: #a64bf4">导航历史记录</th>
-    <table border="1px">
-        <tr style="color: red;font-size: 14px">
+    <span id="history" style="color: #a64bf4">导航历史记录</span><br/>
+
+    <table border="0.1px">
+        <tr style="color: green;font-size: 14px">
             <th>导航方式</th>
             <th>出发地</th>
             <th>目的地</th>
             <th>开始导航时间</th>
         </tr>
-        <tr id="guideHistory" th:each="guide:${session.guides}">
-            <th class="oneGuide" th:if="${guide.guideType.equals('0')}" onclick="beginGuide()">驾车
-            </th>
-            <th class="oneGuide" th:if="${guide.guideType.equals('1')}">公交
-            </th>
-            <th class="oneGuide" th:if="${guide.guideType.equals('2')}">徒步
-            </th>
-            <th class="oneGuide" th:text="${guide.startPlace}"></th>
-            <th class="oneGuide" th:text="${guide.endPlace}"></th>
-            <th class="oneGuide" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
+        <tr th:if="${!session.newMsg}">
+            <th colspan="4" align="center" style="color: #ea4335">当前用户暂无导航记录</th>
         </tr>
+        <tr id="guideHistory" th:each="guide:${session.guides}">
+            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('0')}" onclick="beginGuide()">驾车
+            </th>
+            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('1')}">公交
+            </th>
+            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('2')}">徒步
+            </th>
+            <th class="oneGuide" id="start" th:text="${guide.startPlace}"></th>
+            <th class="oneGuide" is="end" th:text="${guide.endPlace}"></th>
+            <th class="oneGuide" id="create" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
+        </tr>
+
     </table>
 </div>
 <div id="container">

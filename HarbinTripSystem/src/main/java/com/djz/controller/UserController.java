@@ -48,7 +48,6 @@ public class UserController {
     public String getLogin(String username, String pass, Map<String, Object> modelMap, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(true);
         ServletContext application = session.getServletContext();
-        System.out.println("==========" + session.getId());
         User user = userService.getUser(username);
         if (user == null) {
             modelMap.put("msg", "登录用户名不存在");
@@ -88,7 +87,6 @@ public class UserController {
     @ApiOperation("可支持测试")
     @GetMapping("/user/changePass/{name}")
     public String changePass(String name, HttpSession session) {
-        System.out.println(name);
         session.setAttribute("username", name);
         return "change";
     }
@@ -101,11 +99,13 @@ public class UserController {
         name = (String) session.getAttribute("user");
         session.setAttribute("username", name);
         List<Guide> list = guideService.queryGuide(name);
-        if (list != null) {
+        if (!list.isEmpty()) {
             session.setAttribute("guides", list);
+            session.setAttribute("newMsg", true);
         } else {
-            session.setAttribute("newMsg", "当前用户暂无导航记录");
+            session.setAttribute("newMsg", false);
         }
+        System.out.println(list);
         return "history";
     }
 

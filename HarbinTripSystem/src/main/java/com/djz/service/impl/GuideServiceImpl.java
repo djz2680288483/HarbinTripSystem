@@ -42,6 +42,10 @@ public class GuideServiceImpl implements IGuideService {
             query.lambda().eq(Guide::getUsername, name);
         }
         query.lambda().orderByDesc(Guide::getCreateTime);
-        return guideMapper.selectList(query);
+        List<Guide> list = guideMapper.selectList(query);
+        if (list != null) {
+            return list;
+        }
+        return null;
     }
 }
