@@ -5,50 +5,79 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <style type="text/css">
         html {
+            width: 100%;
             height: 100%;
         }
 
-
-
         #search {
-            width: 20%;
-            margin: 1px;
-            background-color: #00dbde;
+            width: 50%;
+            background-color: palegreen;
             height: 100%;
-            float: left;
+            border: 1px;
+            position: fixed;
         }
 
         #container {
-            width: 80%;
             height: 100%;
-            float: right;
-        }
 
+        }
 
     </style>
     <script type="text/javascript"
             src="//api.map.baidu.com/api?v=2.0&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
     <script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
-    <title>地图展示</title>
+    <title>历史导航记录</title>
 </head>
 
 <body>
-    <div id="search"></div>
-    <div id="container"></div>
+<div id="search">
+    <form id="backSubmit" action="/user/back" method="post"/>
+    用户名： <input id="people" name="people" type="text" th:value="${session.user}" style="color: #a64bf4" readonly/>
+    <input type="button" name="back" id="back" style="width: 50px;color: #7f7f7f; float:right" value="返回"
+           onclick="backPage()"/>
+    <br/>
+    <th id="history" style="color: #a64bf4">导航历史记录</th>
+    <table border="1px">
+        <tr style="color: red;font-size: 14px">
+            <th>导航方式</th>
+            <th>出发地</th>
+            <th>目的地</th>
+            <th>开始导航时间</th>
+        </tr>
+        <tr id="guideHistory" th:each="guide:${session.guides}">
+            <th class="oneGuide" th:if="${guide.guideType.equals('0')}" onclick="beginGuide()">驾车
+            </th>
+            <th class="oneGuide" th:if="${guide.guideType.equals('1')}">公交
+            </th>
+            <th class="oneGuide" th:if="${guide.guideType.equals('2')}">徒步
+            </th>
+            <th class="oneGuide" th:text="${guide.startPlace}"></th>
+            <th class="oneGuide" th:text="${guide.endPlace}"></th>
+            <th class="oneGuide" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
+        </tr>
+    </table>
+</div>
+<div id="container">
+
+</div>
 
 </body>
 <script type="text/javascript">
-
-    // 百度地图API功能
-    function G(id) {
-        return document.getElementById(id);
+    function backPage() {
+        $("#backSubmit").submit();
     }
+
+    var startPlacePoint;
+    var endPlacePoint;
+    var count = 0;
+    var driving = null;
 
     //百度地图加载显示页面容器div
     var map = new BMap.Map("container");
     //Point
     var point = new BMap.Point(126.7339, 45.7507);
+
     // 初始化地图,设置城市和地图级别。
     map.centerAndZoom(point, 17);
 
@@ -57,25 +86,60 @@
 
     var geoc = new BMap.Geocoder();
     map.addEventListener("click", function (e) {
-        //通过点击百度地图，可以获取到对应的point, 由point的lng、lat属性就可以获取对应的经度纬度
+//通过点击百度地图，可以获取到对应的point, 由point的lng、lat属性就可以获取对应的经度纬度
         var pt = e.point;
         geoc.getLocation(pt, function (rs) {
-            //addressComponents对象可以获取到详细的地址信息
+//addressComponents对象可以获取到详细的地址信息
             var addComp = rs.addressComponents;
             var site = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
-            //将对应的HTML元素设置值
+//将对应的HTML元素设置值
             alert(site);
         });
     });
 
-    //定位控件
-    map.addControl(new BMap.CityListControl());
+    function beginGuide() {
 
+        //获取导航方式
+        var typeValue;
+        typeValue = $("#driverType option:selected").val();
+        //获取起始 和目的地经纬度
+        if (startPlacePoint == null || endPlacePoint == null) {
+            alert("请输入出发地或者目的地");
+        }
+        count++;
+        if (typeValue == 0) {
+            //路线推荐 0 驾车导航
+            var p1 = startPlacePoint;
+            var p2 = endPlacePoint;
+            if (driving != null) {
+                driving.clearResults();
+            }
+            // 百度地图API功能
+            driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
 
+            driving.search(p1, p2);
+        } else if (typeValue == 1) {
+            //路线推荐 1 公交导航
+            var p1 = startPlacePoint;
+            var p2 = endPlacePoint;
+            if (driving != null) {
+                driving.clearResults();
+            }
+            // 百度地图API功能
+            driving = new BMap.TransitRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving.search(p1, p2);
+        } else if (typeValue == 2) {
+
+            //路线推荐 2 徒步导航
+            var p1 = startPlacePoint;
+            var p2 = endPlacePoint;
+            if (driving != null) {
+                driving.clearResults();
+            }
+            // 百度地图API功能
+            driving = new BMap.WalkingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving.search(p1, p2);
+        }
+    }
 </script>
-
-<script>
-
-
-</script>
-</html>
+< /html>

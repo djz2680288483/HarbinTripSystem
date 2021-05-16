@@ -1,17 +1,21 @@
 package com.djz.controller;
 
+import com.djz.entity.Guide;
 import com.djz.entity.User;
+import com.djz.service.IGuideService;
 import com.djz.service.IUserService;
 import com.djz.utils.CryptUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +26,8 @@ import java.util.Map;
 public class UserController {
     @Autowired
     IUserService userService;
+    @Autowired
+    IGuideService guideService;
 
     @ApiOperation("可支持测试")
     @GetMapping({"/index", "/"})
@@ -82,14 +88,32 @@ public class UserController {
     @ApiOperation("可支持测试")
     @GetMapping("/user/changePass/{name}")
     public String changePass(String name, HttpSession session) {
+        System.out.println(name);
         session.setAttribute("username", name);
         return "change";
     }
 
     @ApiOperation("可支持测试")
     @GetMapping("/user/history/{name}")
-    public String history(String name, HttpSession session) {
+    public String history(String name, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(true);
+        name = (String) session.getAttribute("user");
         session.setAttribute("username", name);
+        List<Guide> list = guideService.queryGuide(name);
+        if (list != null) {
+            session.setAttribute("guides", list);
+        } else {
+            session.setAttribute("newMsg", "当前用户暂无导航记录");
+        }
         return "history";
     }
+
+    @ApiOperation("可支持测试")
+    @PostMapping("/user/back")
+    public String backAlreadyLogin(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        return "test";
+    }
+
 }
