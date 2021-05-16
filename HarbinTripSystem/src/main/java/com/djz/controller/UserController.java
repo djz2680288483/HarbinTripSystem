@@ -105,7 +105,6 @@ public class UserController {
         } else {
             session.setAttribute("newMsg", false);
         }
-        System.out.println(list);
         return "history";
     }
 
