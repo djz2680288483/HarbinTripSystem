@@ -39,27 +39,27 @@ public class User implements Serializable {
     private Long id;
 
     @ApiModelProperty("用户名")
-    @TableId("name")
+    @TableField("name")
     private String name;
 
     @ApiModelProperty("性别")
-    @TableId("sex")
+    @TableField("sex")
     private String sex;
 
     @ApiModelProperty("密码")
-    @TableId("password")
+    @TableField("password")
     private String password;
 
     @ApiModelProperty("QQ")
-    @TableId("qq")
+    @TableField("qq")
     private String qq;
 
     @ApiModelProperty("电话号")
-    @TableId("telephone")
+    @TableField("telephone")
     private String telephone;
 
     @ApiModelProperty("地址")
-    @TableId("address")
+    @TableField("address")
     private String address;
 
     @ApiModelProperty("创建时间")
@@ -80,11 +80,11 @@ public class User implements Serializable {
     @ApiModelProperty("删除时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableId("delete_time")
+    @TableField("delete_time")
     private Date deleteTime;
 
     @ApiModelProperty("是否删除")
-    @TableId("deleted")
+    @TableField("deleted")
     @TableLogic
     private Integer deleted;
 

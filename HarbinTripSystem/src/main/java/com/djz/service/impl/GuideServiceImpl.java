@@ -1,10 +1,8 @@
 package com.djz.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.djz.common.Constant;
-import com.djz.common.DateUtil;
+
 import com.djz.entity.Guide;
-import com.djz.entity.GuidePath;
 import com.djz.mapper.GuideMapper;
 import com.djz.service.IGuideService;
 import com.djz.utils.StringUtils;
@@ -29,7 +27,7 @@ public class GuideServiceImpl implements IGuideService {
             return false;
         }
         int result = guideMapper.insert(guide);
-        if (result < Constant.ONE) {
+        if (result < 1) {
             return false;
         }
         return true;
