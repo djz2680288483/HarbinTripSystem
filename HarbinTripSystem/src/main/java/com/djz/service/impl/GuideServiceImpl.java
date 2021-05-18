@@ -53,4 +53,14 @@ public class GuideServiceImpl implements IGuideService {
     public Guide selectGuideById(Integer id) {
         return guideMapper.selectById(id);
     }
+
+    @Override
+    public Boolean deleteGuide(Integer id) {
+
+        int result = guideMapper.deleteById(id);
+        if (result > 0) {
+            return true;
+        }
+        return false;
+    }
 }

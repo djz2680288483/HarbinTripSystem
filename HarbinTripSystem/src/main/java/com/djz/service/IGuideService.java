@@ -1,6 +1,7 @@
 package com.djz.service;
 
 import com.djz.entity.Guide;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -29,4 +30,11 @@ public interface IGuideService {
      * @return
      */
     Guide selectGuideById(Integer id);
+
+    /**
+     * 根据用户id删除导航记录
+     * @param id
+     * @return
+     */
+    Boolean deleteGuide(Integer id);
 }
