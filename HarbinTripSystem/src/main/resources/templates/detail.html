@@ -30,7 +30,7 @@
 
     </style>
     <script type="text/javascript"
-            src="//api.map.baidu.com/api?v=3.0&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
+            src="//api.map.baidu.com/api?v=2.0&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
     <script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
     <title>历史导航</title>
@@ -40,33 +40,33 @@
 <!--搜索框-->
 <div id="search">
     </br>
-    <form id="log" action="/user/history" method="post">
+    <form id="log" action="/guide/history" method="post">
         当前用户: <input type="text" name="nowUser" id="nowUser"
                      style="width:100px;background-color: white; color: #a64bf4;font-weight: 600"
                      th:value="${session.user}" readonly/>&nbsp;&nbsp;
         导航时间: <input type="text" name="createTime" id="create"
                      style="width:150px;background-color: white; color: #a64bf4;font-weight: 600"
-                     th:value="${#dates.format(session.guide.createTime,'yyyy-MM-dd HH:mm:ss')}" readonly/>&nbsp;&nbsp;
+                     th:value="${#dates.format(session.one.createTime,'yyyy-MM-dd HH:mm:ss')}" readonly/>&nbsp;&nbsp;
         <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="返回"/>
-        <input type="hidden" id="startlat" th:value="${session.guide.startLatitude}">
-        <input type="hidden" id="startlon" th:value="${session.guide.startLongitude}">
-        <input type="hidden" id="endlat" th:value="${session.guide.endLatitude}">
-        <input type="hidden" id="endlon" th:value="${session.guide.endLongitude}">
-        <input type="hidden" id="guideType" th:value="${session.guide.guideType}">
+        <input type="hidden" id="startlat" th:value="${session.one.startLatitude}">
+        <input type="hidden" id="startlon" th:value="${session.one.startLongitude}">
+        <input type="hidden" id="endlat" th:value="${session.one.endLatitude}">
+        <input type="hidden" id="endlon" th:value="${session.one.endLongitude}">
+        <input type="hidden" id="guideType" th:value="${session.one.guideType}">
     </form>
     </br>
     <div id="r-result">
-        导航方式：<span class="drivertype" th:value="${session.guide.guideType}"
-                   th:if="${session.guide.guideType.equals('0')}">驾车</span>
-        <span class="drivertype" th:value="${session.guide.guideType}"
-              th:if="${session.guide.guideType.equals('1')}">公交</span>
-        <span class="drivertype" th:value="${session.guide.guideType}"
-              th:if="${session.guide.guideType.equals('2')}">徒步</span>
-        <span class="drivertype" th:value="${session.guide.guideType}"
-              th:if="${session.guide.guideType.equals('3')}">骑行</span>
-        出发地: <label for="startPlace"></label><input type="text" th:value="${session.guide.startPlace}" readonly
+        导航方式：<span class="drivertype" th:value="${session.one.guideType}"
+                   th:if="${session.one.guideType.equals('0')}">驾车</span>
+        <span class="drivertype" th:value="${session.one.guideType}"
+              th:if="${session.one.guideType.equals('1')}">公交</span>
+        <span class="drivertype" th:value="${session.one.guideType}"
+              th:if="${session.one.guideType.equals('2')}">徒步</span>
+        <span class="drivertype" th:value="${session.one.guideType}"
+              th:if="${session.one.guideType.equals('3')}">骑行</span>
+        出发地: <label for="startPlace"></label><input type="text" th:value="${session.one.startPlace}" readonly
                                                     name="startPlace" id="startPlace" style="width:220px;"/>&nbsp;&nbsp;
-        目的地: <label for="endPlace"></label><input th:value="${session.guide.endPlace}" type="text" readonly
+        目的地: <label for="endPlace"></label><input th:value="${session.one.endPlace}" type="text" readonly
                                                   id="endPlace" name="endPlace" style="width:220px;"/>&nbsp;&nbsp;
         <input type="button" id="startGuide" name="startGuide" onclick="beginGuide()" value="查看"/>
     </div>
@@ -131,7 +131,6 @@
             }
             // 百度地图API功能
             driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
-            alert("test");
             driving.search(p1, p2);
         } else if (typeValue == 1 || typeValue.equals('1')) {
             //路线推荐 1 公交导航
@@ -163,7 +162,7 @@
                 driving.clearResults();
             }
             // 百度地图API功能
-            driving = new BMap.BikingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.RidingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         }
 

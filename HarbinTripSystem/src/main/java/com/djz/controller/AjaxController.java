@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -156,21 +153,5 @@ public class AjaxController {
         msg = "修改失败";
         return msg;
     }
-    @ApiOperation("可支持测试")
-    @PostMapping("/guide/history")
-    public String detailHistory(HttpServletRequest request) {
-        String name;
-        HttpSession session = request.getSession(true);
-        name = (String) session.getAttribute("user");
-        session.setAttribute("username", name);
-        List<Guide> list = guideService.queryGuide(name);
-        if (!list.isEmpty()) {
-            session.setAttribute("guides", list);
-            session.setAttribute("newMsg", true);
-        } else {
-            session.setAttribute("newMsg", false);
-        }
-        //return "history";
-        return "history11";
-    }
+
 }

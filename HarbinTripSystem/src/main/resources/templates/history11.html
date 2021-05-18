@@ -31,6 +31,7 @@
 
     <table border="1px">
         <tr style="color: green;font-size: 14px">
+            <th>编号ID</th>
             <th>导航方式</th>
             <th>出发地</th>
             <th>目的地</th>
@@ -41,12 +42,9 @@
             <th colspan="4" align="center" style="color: #ea4335">当前用户暂无导航记录</th>
         </tr>
         <tr id="guideHistory" th:each="guide:${session.guides}">
-            <!--            <th class="oneGuide" name="one" id="guideId" th:text="${guide.id}" onclick="beginGuide()">驾车-->
-            <!--            </th>-->
-            <form name="detail" id="detailGuide" action="/guide/guideHistoryDetail" method="post">
-                <input type="hidden" id="guideId" name="guideId" th:value="${guide.id}"/>
-            </form>
-            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('0')}" onclick="beginGuide()">驾车
+            <th class="oneGuide" name="one" id="guideId" th:text="${guide.id}">
+            </th>
+            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('0')}">驾车
             </th>
             <th class="oneGuide" name="one" th:if="${guide.guideType.equals('1')}">公交
             </th>
@@ -58,11 +56,11 @@
             <th class="oneGuide" is="end" th:text="${guide.endPlace}"></th>
             <th class="oneGuide" id="create" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
             <th class="oneGuide" id="detail">
-                <input type="button" id="guideDetail" onclick="goDetail()" value="查看详情" class="btn-success"/>/
-                <input type="button" id="deleteDetail" onclick="deleteDetail()" value="删除" class="btn-success"/>
+                <button id="guideDetail" onclick="goDetail()" >查看详情</button>
+                /
+                <button  id="deleteDetail" onclick="deleteDetail()" >删除</button>
             </th>
         </tr>
-
     </table>
 </div>
 </body>
@@ -72,7 +70,12 @@
     }
 
     function goDetail() {
-        $("#detailGuide").submit();
+        var guideId = $("#guideDetail").val();
+        location.href = "/guide/guideHistoryDetail/" + guideId;
+    }
+    function deleteDetail() {
+        var guideId = $("#deleteDetail").val();
+        location.href = "/guide/guideHistoryDetail/" + guideId;
     }
 
 </script>

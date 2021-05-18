@@ -26,6 +26,20 @@
                            autocomplete="off">
                     <span class="focus-input100" data-symbol="&#xf206;"></span>
                 </div>
+                <div class="wrap-input100 validate-input m-b-23" data-validate="请选择">
+                    <span class="label-input100">性别</span>
+                    <span id="sp5"></span>
+                    <input type="radio" name="sex" value="0">男</input>
+                    <input type="radio" name="sex" value="1">女</input>
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+                <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+                    <span class="label-input100">手机号</span>
+                    <span id="sp4"></span>
+                    <input class="input100" id="phone" type="text" name="phone" placeholder="请输入手机号"
+                           autocomplete="off">
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
 
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">输入密码</span>
@@ -76,6 +90,15 @@
         }
 
     });
+    $("#phone").blur(function () {
+        var rep = /^1[3-9][0-9]{9}$/;
+        var phone = $("#phone").val();
+        if (phone.match(rep)) {
+            alert("手机格式不正确");
+        }
+    });
+
+
     $("#pass1").blur(function () {
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
