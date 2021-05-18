@@ -51,7 +51,8 @@
                      th:value="${session.user}" readonly/>&nbsp;&nbsp;
         <input type="button" name="changePass" id="changePass" style="width: 70px;color: rebeccapurple" value="修改密码"
                onclick="updatePass()"/>&nbsp;&nbsp;
-        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" onclick="History()" value="历史导航记录"/>
+        <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" onclick="History()"
+               value="历史导航记录"/>
         <input type="submit" name="logout" id="logout" style="width: 50px;color: #7f7f7f; float:right" value="注销"/>
     </form>
     </br>
@@ -61,7 +62,7 @@
         <option value="0">驾车</option>
         <option value="1">公交</option>
         <option value="2">徒步</option>
-        <!--        <option value="3">骑行</option>-->
+        <option value="3">骑行</option>
     </select>
         出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:220px;"/>&nbsp;&nbsp;
         目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:220px;"/>&nbsp;&nbsp;
@@ -371,7 +372,7 @@
                 driving.clearResults();
             }
             // 百度地图API功能
-            driving = new BMap.BikingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
+            driving = new BMap.RidingRoute(map, {renderOptions: {map: map, autoViewport: true, panel: "r",}});
             driving.search(p1, p2);
         }
         var start = $("#startPlace").val();
@@ -390,8 +391,8 @@
         }, function (data) {
             alert(data);
         });
-    }
 
+    }
 
 </script>
 </html>

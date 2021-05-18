@@ -21,4 +21,12 @@ public interface IGuideService {
      * @return
      */
     List<Guide> queryGuide(String name);
+
+    /**
+     * 根据用户id查询导航记录
+     *
+     * @param id
+     * @return
+     */
+    Guide selectGuideById(Integer id);
 }

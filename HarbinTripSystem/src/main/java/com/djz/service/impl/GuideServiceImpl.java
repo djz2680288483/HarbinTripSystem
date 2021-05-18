@@ -48,4 +48,9 @@ public class GuideServiceImpl implements IGuideService {
         }
         return null;
     }
+
+    @Override
+    public Guide selectGuideById(Integer id) {
+        return guideMapper.selectById(id);
+    }
 }

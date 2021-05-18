@@ -5,6 +5,7 @@ import com.djz.entity.User;
 import com.djz.service.IGuideService;
 import com.djz.service.IUserService;
 import com.djz.utils.CryptUtils;
+import com.sun.javafx.scene.paint.GradientUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,6 +97,9 @@ public class UserController {
     public String history(String name, HttpServletRequest request) {
 
         HttpSession session = request.getSession(true);
+        if (session.getAttribute("guides") != null) {
+            session.removeAttribute("guides");
+        }
         name = (String) session.getAttribute("user");
         session.setAttribute("username", name);
         List<Guide> list = guideService.queryGuide(name);
@@ -105,6 +109,26 @@ public class UserController {
         } else {
             session.setAttribute("newMsg", false);
         }
+        //return "history";
+        return "history";
+    }
+
+
+    @ApiOperation("可支持测试")
+    @PostMapping("/user/history")
+    public String detailHistory(HttpServletRequest request) {
+        String name;
+        HttpSession session = request.getSession(true);
+        name = (String) session.getAttribute("user");
+        session.setAttribute("username", name);
+        List<Guide> list = guideService.queryGuide(name);
+        if (!list.isEmpty()) {
+            session.setAttribute("guides", list);
+            session.setAttribute("newMsg", true);
+        } else {
+            session.setAttribute("newMsg", false);
+        }
+        //return "history";
         return "history";
     }
 
@@ -115,4 +139,17 @@ public class UserController {
         return "test";
     }
 
+    @ApiOperation("可支持测试")
+    @PostMapping("user/guideHistoryDetail")
+    public String detailGuide(String guideId, HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        System.out.println(guideId);
+        Integer id = Integer.parseInt(guideId);
+        if (id != null) {
+            Guide one = guideService.selectGuideById(id);
+            session.setAttribute("guide", one);
+        }
+
+        return "detail";
+    }
 }

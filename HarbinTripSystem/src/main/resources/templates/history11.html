@@ -35,7 +35,7 @@
             <th>出发地</th>
             <th>目的地</th>
             <th>开始导航时间</th>
-<!--            <th>操作</th>-->
+            <th>操作</th>
         </tr>
         <tr th:if="${!session.newMsg}">
             <th colspan="4" align="center" style="color: #ea4335">当前用户暂无导航记录</th>
@@ -57,9 +57,9 @@
             <th class="oneGuide" id="start" th:text="${guide.startPlace}"></th>
             <th class="oneGuide" is="end" th:text="${guide.endPlace}"></th>
             <th class="oneGuide" id="create" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
-<!--            <th class="oneGuide" id="detail">-->
-<!--                <input type="button" id="guideDetail" onclick="goDetail()" value="查看详情" class="btn-success"/>-->
-<!--            </th>-->
+            <th class="oneGuide" id="detail">
+                <input type="button" id="guideDetail" onclick="goDetail()" value="查看详情" class="btn-success"/>
+            </th>
         </tr>
 
     </table>
