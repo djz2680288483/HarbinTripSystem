@@ -45,7 +45,6 @@ public class UserController {
     @PostMapping("/user/login")
     public String getLogin(String username, String pass, Map<String, Object> modelMap, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(true);
-        ServletContext application = session.getServletContext();
         User user = userService.getUser(username);
         if (user == null) {
             modelMap.put("msg", "登录用户名不存在");
@@ -56,7 +55,8 @@ public class UserController {
             modelMap.put("msg", "密码错误");
             return "login";
         }
-        session.setAttribute("user", user.getName());
+        modelMap.put("username", user.getName());
+        session.setAttribute("username", user.getName());
         return "test";
     }
 
@@ -70,13 +70,13 @@ public class UserController {
     @ApiOperation("可支持测试")
     @PostMapping("/user/logout")
     public String loginOut(HttpSession session) {
-        session.removeAttribute("user");
+        session.removeAttribute("username");
         session.invalidate();
         return "login";
     }
 
     @ApiOperation("可支持测试")
-    @GetMapping("/user/changePass/{name}")
+    @GetMapping("/user/changePass")
     public String changePass(String name, HttpSession session) {
         session.setAttribute("username", name);
         return "change";

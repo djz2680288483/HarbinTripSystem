@@ -48,7 +48,7 @@
         当前位置: <input type="text" name="nowPlace" id="nowPlace" style="width:220px;" readonly/>&nbsp;&nbsp;&nbsp;&nbsp;
         当前用户: <input type="text" name="nowUser" id="nowUser"
                      style="width:100px;background-color: white; color: #a64bf4;font-weight: 600"
-                     th:value="${session.user}" readonly/>&nbsp;&nbsp;
+                     th:value="${session.username}" readonly/>&nbsp;&nbsp;
         <input type="button" name="changePass" id="changePass" style="width: 70px;color: rebeccapurple" value="修改密码"
                onclick="updatePass()"/>&nbsp;&nbsp;
         <input type="button" name="history" id="history" style="width: 90px;color: sandybrown" onclick="History()"
@@ -62,7 +62,7 @@
         <option value="0">驾车</option>
         <option value="1">公交</option>
         <option value="2">徒步</option>
-        <option value="3">骑行</option>
+        <!--        <option value="3">骑行</option>-->
     </select>
         出发地: <label for="startPlace"></label><input type="text" name="startPlace" id="startPlace" style="width:220px;"/>&nbsp;&nbsp;
         目的地: <label for="endPlace"></label><input type="text" id="endPlace" name="endPlace" style="width:220px;"/>&nbsp;&nbsp;
@@ -94,14 +94,13 @@
     //百度地图加载显示页面容器div
     var map = new BMap.Map("container");
     //Point
-    // var point = new BMap.Point(126.7339, 45.7507);
-    // map.centerAndZoom(point, 15);
-    // 初始化地图,设置城市和地图级别。
-    map.centerAndZoom("哈尔滨市", 17);
+    var point = new BMap.Point(126.730066, 45.749466);
+    map.centerAndZoom(point, 17);
 
     //开启鼠标滚轮缩放
     map.enableScrollWheelZoom(true);
-
+    // var geo = new BMap().Geolocation();
+    // geo.enableSDKLocation();
     var geoc = new BMap.Geocoder();
     map.addEventListener("click", function (e) {
         //通过点击百度地图，可以获取到对应的point, 由point的lng、lat属性就可以获取对应的经度纬度
@@ -168,7 +167,6 @@
             window.document.getElementById("endPlace").value = addressEnd;
             endPlacePoint = pp;
         }
-
         //智能搜索
         var local = new BMap.LocalSearch(map, {
             onSearchComplete: myFun
@@ -197,9 +195,8 @@
         var lon = position.coords.longitude;
         var lat = position.coords.latitude;
         var point = new BMap.Point("" + lon + "", "" + lat + "");
-        //  map.centerAndZoom(point,19);
         var gc = new BMap.Geocoder();
-        //
+
         translateCallback = function (point) {
             var marker = new BMap.Marker(point);
             map.addOverlay(marker);
@@ -210,7 +207,7 @@
                 var addComp = rs.addressComponents;
                 if (addComp.province !== addComp.city) {
                     // var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
-                    var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district;
+                    var sContent = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street;
                     // $("#nowPlace").val(sContent);
                     $("#nowPlace").val(sContent);
                 } else {
@@ -312,12 +309,12 @@
 <script>
     function updatePass() {
         var name = $("#nowUser").val();
-        location.href = "/user/changePass/" + name;
+        location.href = "/user/changePass?name=" + name;
     }
 
     function History() {
         var name = $("#nowUser").val();
-        location.href = "/guide/history/" + name;
+        location.href = "/guide/history?name=" + name;
     }
 
     function beginGuide() {
@@ -393,6 +390,7 @@
         });
 
     }
+
 
 </script>
 </html>

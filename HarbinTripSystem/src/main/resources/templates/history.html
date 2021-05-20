@@ -12,6 +12,14 @@
             border: 1px;
         }
 
+        #guideId {
+            visibility: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
     </style>
     <script type="text/javascript"
             src="//api.map.baidu.com/api?v=2.0&ak=ucHrfnAMPHBwtvcgdktxiL6soHhsszq5"></script>
@@ -23,7 +31,7 @@
 <body>
 <div id="search">
     <form id="backSubmit" action="/guide/back" method="post"/>
-    用户名： <input id="people" name="people" type="text" th:value="${session.user}" style="color: #a64bf4" readonly/>
+    用户名： <input id="people" name="people" type="text" th:value="${session.username}" style="color: #a64bf4" readonly/>
     <input type="button" name="back" id="back" style="width: 50px;color: #7f7f7f; float:right" value="返回"
            onclick="backPage()"/>
     <br/>
@@ -35,18 +43,15 @@
             <th>出发地</th>
             <th>目的地</th>
             <th>开始导航时间</th>
-<!--            <th>操作</th>-->
+            <th>操作</th>
         </tr>
         <tr th:if="${!session.newMsg}">
-            <th colspan="4" align="center" style="color: #ea4335">当前用户暂无导航记录</th>
+            <th colspan="5" align="center" style="color: #ea4335">当前用户暂无导航记录</th>
         </tr>
         <tr id="guideHistory" th:each="guide:${session.guides}">
-            <!--            <th class="oneGuide" name="one" id="guideId" th:text="${guide.id}" onclick="beginGuide()">驾车-->
+            <!--            <th class="oneGuide" name="one" id="guideId" th:text="${guide.id}">-->
             <!--            </th>-->
-            <form name="detail" id="detailGuide" action="/user/guideHistoryDetail" method="post">
-                <input type="hidden" name="guideId" th:value="${guide.id}"/>
-            </form>
-            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('0')}" onclick="beginGuide()">驾车
+            <th class="oneGuide" name="one" th:if="${guide.guideType.equals('0')}">驾车
             </th>
             <th class="oneGuide" name="one" th:if="${guide.guideType.equals('1')}">公交
             </th>
@@ -57,11 +62,14 @@
             <th class="oneGuide" id="start" th:text="${guide.startPlace}"></th>
             <th class="oneGuide" is="end" th:text="${guide.endPlace}"></th>
             <th class="oneGuide" id="create" th:text="${#dates.format(guide.createTime,'yyyy-MM-dd HH:mm:ss')}"></th>
-<!--            <th class="oneGuide" id="detail">-->
-<!--                <input type="button" id="guideDetail" onclick="goDetail()" value="查看详情" class="btn-success"/>-->
-<!--            </th>-->
+            <th class="oneGuide" id="detail">
+                <a id="guideDetail" th:href="'/guide/guideHistoryDetail?guideId='+${guide.id}" onclick="goDetail()"
+                   style="border: 1px;color: green">查看详情</a>
+                /
+                <a id="deleteDetail" th:href="'/guide/deleteHistory?guideId='+${guide.id}"
+                   style="border: 1px;color: red">删除</a>
+            </th>
         </tr>
-
     </table>
 </div>
 </body>
@@ -70,8 +78,31 @@
         $("#backSubmit").submit();
     }
 
-    function goDetail() {
-        $("#detailGuide").submit();
+    //接收一个值
+    function oneValues() {
+        var result;
+        var url = decodeURI(window.location.search); //获取url中"?"符后的字串
+        if (url.indexOf("?") != -1) {
+            result = url.substr(url.indexOf("=") + 1);
+        }
+        return result;
     }
+
+    //接收多值
+    function manyValues() {
+        var url = decodeURI(window.location.search);
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            var key = new Array(strs.length);
+            var value = new Array(strs.length);
+            for (i = 0; i < strs.length; i++) {
+                key[i] = strs[i].split("=")[0];
+                value[i] = unescape(strs[i].split("=")[1]);
+                alert(key[i] + "=" + value[i]);
+            }
+        }
+    }
+
 </script>
 </html>
