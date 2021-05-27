@@ -20,6 +20,7 @@
                 <span class="login100-form-title p-b-49">用户注册</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+                    <span id="tip" class="tip" name="tip"  style="color:red; text-align:center"> </span><br/>
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
                     <input class="input100" id="username" type="text" name="username" placeholder="用户名必须以字母开头，且最少四位"
@@ -61,18 +62,18 @@
     $("#username").blur(function () {
         var name = $("#username").val();
         if (name.match(re)) {
-            alert("用户名不能为中文");
+            document.getElementById("tip").innerText = "用户名不能为中文";
         }
         if (name.match(ret)) {
             $.post("/ajax/checkName", {name: name}, function (data) {
                 if (data != "") {
-                    alert(data);
+                    document.getElementById("tip").innerText = data;
                     var rand = parseInt(Math.random() * 1000);
                     document.getElementById("username").value = "user" + rand;
                 }
             });
         } else {
-            alert("注册用户名格式错误");
+            document.getElementById("tip").innerText = "注册用户名格式错误";
         }
 
     });
@@ -81,7 +82,7 @@
         var pass1 = $("#pass1").val();
 
         if (pass.trim() != pass1.trim()) {
-            alert("前后密码不一致");
+            document.getElementById("tip").innerText = "前后密码不一致";
         }
     });
 
@@ -91,18 +92,16 @@
         var pass1 = $("#pass1").val();
         $.post("/ajax/registerUser", {name: username, pass: pass, pass1: pass1}, function (data) {
             var str = data;
-            if ("注册成功" === str) {
-                alert(str);
+            if ("ok" === str) {
+                alert("注册成功");
                 $("#loginForm").submit();
                 document.getElementById("sub").onsubmit;
             } else {
-                alert(data);
+                document.getElementById("tip").innerText = data;
             }
         });
     }
 
 </script>
-
-<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 </html>

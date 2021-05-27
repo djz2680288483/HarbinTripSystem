@@ -20,6 +20,7 @@
                 <span class="login100-form-title p-b-49">密码修改</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+                    <span id="tip" class="tip" name="tip"  style="color:red; text-align:center"> </span><br/>
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
                     <input class="input100" id="username" type="text" name="username" th:value="${session.username}"
@@ -66,14 +67,14 @@
         var name = $("#username").val();
         var old = $("#oldPass").val();
         $.post("/ajax/checkPass", {username: name, oldPass: old}, function (data) {
-            alert(data);
+            document.getElementById("tip").innerText = data;
         });
     });
     $("#pass1").blur(function () {
         var pass = $("#pass").val();
         var pass1 = $("#pass1").val();
         if (pass.trim() != pass1.trim()) {
-            alert("前后密码不一致");
+            document.getElementById("tip").innerText = "前后密码不一致";
         }
     });
 
@@ -84,18 +85,16 @@
         var pass1 = $("#pass1").val();
         $.post("/ajax/updatePass", {name: username, oldPass: oldPass, pass: pass, pass1: pass1}, function (data) {
             var str = data;
-            if ("修改成功" === str) {
-                alert(str);
+            if ("ok" === str) {
+                alert("修改成功");
                 $("#loginForm").submit();
                 document.getElementById("sub").onsubmit;
             } else {
-                alert(data);
+                document.getElementById("tip").innerText = data;
             }
         });
     }
 
 </script>
-
-<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 </html>

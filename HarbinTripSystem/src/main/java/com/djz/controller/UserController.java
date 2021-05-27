@@ -57,7 +57,7 @@ public class UserController {
         }
         modelMap.put("username", user.getName());
         session.setAttribute("username", user.getName());
-        return "test";
+        return "welcome";
     }
 
     @ApiOperation("可支持测试")

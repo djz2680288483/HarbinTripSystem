@@ -15,7 +15,11 @@
     <link rel="stylesheet" type="text/css" href="/css/util.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
-
+<style>
+    #sub {
+        visibility: hidden;
+    }
+</style>
 <body>
 
 <div class="limiter">
@@ -25,6 +29,7 @@
                 <span class="login100-form-title p-b-49">登录</span>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+                    <span id="tip" class="tip" name="tip" th:text="${msg}" style="color:red; text-align:center"> </span><br/>
                     <span class="label-input100">用户名</span>
                     <span id="sp"></span>
                     <input class="input100" id="username" type="text" name="username" placeholder="请输入用户名"
@@ -35,7 +40,7 @@
                 <div class="wrap-input100 validate-input" data-validate="请输入密码">
                     <span class="label-input100">密码</span>
                     <input class="input100" id="pass" type="password" name="pass" placeholder="请输入密码">
-                    <span class="focus-input100" data-symbol="&#xf190;" id="tip" name="tip"></span>
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
                 </div>
 
 
@@ -46,10 +51,9 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn" id="submit" type="submit">登 录</button>
+                        <button class="login100-form-btn" id="sub1" type="button">登 录</button>
                     </div>
                 </div>
-
                 <div class="flex-col-c p-t-25">
                     <a href="/user/register" class="txt2">立即注册</a>
                 </div>
@@ -61,27 +65,23 @@
 <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
 <script src="js/main.js"></script>
 <script>
-    $("#submit").click(function () {
-        var username = $("#username").val();
-        var pass = $("#pass").val();
-        $.post("/ajax/login", {name: username, pass: pass}, function (data) {
-            if (data != "") {
-                alert(data);
-                //  document.getElementById("tip").value = data;
-            } else {
-                $("#loginForm").submit();
-            }
-        });
+    <!--    button 的id 不要设置为submit -->
+    $("#sub1").click(function () {
+        {
+            var username = $("#username").val();
+            var pass = $("#pass").val();
+            $.post("/ajax/login", {name: username, pass: pass}, function (data) {
+                if (data == "ok") {
+                    document.getElementById("tip").innerText = "";
+                    $("#loginForm").submit();
+                } else {
+                    document.getElementById("tip").innerText = data;
+                }
+            });
+        }
     });
+
 </script>
-
-
-<script type="text/javascript"> (function () {
-    var s = "_" + Math.random().toString(36).slice(2);
-    document.write('<div style="" id="' + s + '"></div>');
-    (window.slotbydup = window.slotbydup || []).push({id: "u4923786", container: s});
-})(); </script>
-<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer"></script>
 </body>
 
 </html>

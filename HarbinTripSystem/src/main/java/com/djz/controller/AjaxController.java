@@ -29,7 +29,7 @@ public class AjaxController {
     @ApiOperation("可支持测试")
     @PostMapping("/ajax/login")
     public String getLogin(String name, String pass) throws Exception {
-        String msg = "";
+        String msg = "ok";
         User user = userService.getUser(name);
         if (user == null) {
             msg = "登录用户名不存在";
@@ -65,7 +65,7 @@ public class AjaxController {
             return msg;
         }
         if (pass.trim().length() < FIVE) {
-            msg = "密码过于简单，请重新设置。密码最少为5位";
+            msg = "密码过于简单，请重新设置，密码最少为5位。";
             return msg;
         }
         if (!pass.trim().equals(pass1.trim())) {
@@ -79,7 +79,7 @@ public class AjaxController {
         user.setCreateTime(new Date());
         int result = userService.addUser(user);
         if (result > ZERO) {
-            msg = "注册成功";
+            msg = "ok";
             return msg;
         }
         msg = "注册失败";
@@ -135,7 +135,7 @@ public class AjaxController {
                 return msg;
             }
             if (pass.trim().length() < FIVE) {
-                msg = "密码过于简单，请重新设置。密码最少为5位";
+                msg = "密码过于简单，请重新设置,密码最少为5位。";
                 return msg;
             }
             if (!pass.trim().equals(pass1.trim())) {
@@ -146,7 +146,7 @@ public class AjaxController {
             user.setPassword(cryptPass);
             int result = userService.updateUserByName(name, cryptPass);
             if (result > ZERO) {
-                msg = "修改成功";
+                msg = "ok";
                 return msg;
             }
         }
